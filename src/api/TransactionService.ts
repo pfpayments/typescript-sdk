@@ -1,0 +1,1786 @@
+'use strict';
+
+import localVarRequest = require("request");
+import http = require("http");
+import Promise = require("bluebird");
+
+import { Authentication } from '../auth/Authentication';
+import { VoidAuth } from '../auth/VoidAuth';
+import { ObjectSerializer } from '../serializers/ObjectSerializer';
+
+import { ClientError } from  '../models/ClientError';
+import { EntityExportRequest } from  '../models/EntityExportRequest';
+import { EntityQuery } from  '../models/EntityQuery';
+import { EntityQueryFilter } from  '../models/EntityQueryFilter';
+import { PaymentMethodConfiguration } from  '../models/PaymentMethodConfiguration';
+import { RenderedDocument } from  '../models/RenderedDocument';
+import { ServerError } from  '../models/ServerError';
+import { TokenVersion } from  '../models/TokenVersion';
+import { Transaction } from  '../models/Transaction';
+import { TransactionCreate } from  '../models/TransactionCreate';
+import { TransactionLineItemUpdateRequest } from  '../models/TransactionLineItemUpdateRequest';
+import { TransactionLineItemVersion } from  '../models/TransactionLineItemVersion';
+import { TransactionPending } from  '../models/TransactionPending';
+
+class TransactionService {
+    protected _basePath = 'https://checkout.postfinance.ch:443/api';
+    protected defaultHeaders : any = {};
+    protected _useQuerystring : boolean = false;
+
+    protected authentications = {
+        'default': <Authentication>new VoidAuth({})
+    }
+
+    constructor(configuration: any) {
+        this.setDefaultAuthentication(new VoidAuth(configuration))
+    }
+
+    set useQuerystring(value: boolean) {
+        this._useQuerystring = value;
+    }
+
+    set basePath(basePath: string) {
+        this._basePath = basePath;
+    }
+
+    get basePath() {
+        return this._basePath;
+    }
+
+    protected setDefaultAuthentication(auth: Authentication) {
+        this.authentications.default = auth;
+    }
+
+    /**
+    * Exports the transactions into a CSV file. The file will contain the properties defined in the request.
+    * @summary Export
+    * @param spaceId 
+    * @param request The request controls the entries which are exported.
+    * @param {*} [options] Override http request options.
+    */
+    public _export (spaceId: number, request: EntityExportRequest, options: any = {}) : Promise<{ response: http.IncomingMessage; body: string;  }> {
+        const localVarPath = this.basePath + '/transaction/export';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling _export.');
+            }
+
+            // verify required parameter 'request' is not null or undefined
+            if (request === null || request === undefined) {
+                throw new Error('Required parameter request was null or undefined when calling _export.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(request, "EntityExportRequest")
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: string;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "string");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * The confirm operation marks the transaction as confirmed. Once the transaction is confirmed no more changes can be applied.
+    * @summary Confirm
+    * @param spaceId 
+    * @param transactionModel The transaction JSON object to update and confirm.
+    * @param {*} [options] Override http request options.
+    */
+    public confirm (spaceId: number, transactionModel: TransactionPending, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Transaction;  }> {
+        const localVarPath = this.basePath + '/transaction/confirm';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling confirm.');
+            }
+
+            // verify required parameter 'transactionModel' is not null or undefined
+            if (transactionModel === null || transactionModel === undefined) {
+                throw new Error('Required parameter transactionModel was null or undefined when calling confirm.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(transactionModel, "TransactionPending")
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Transaction;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Transaction");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Counts the number of items in the database as restricted by the given filter.
+    * @summary Count
+    * @param spaceId 
+    * @param filter The filter which restricts the entities which are used to calculate the count.
+    * @param {*} [options] Override http request options.
+    */
+    public count (spaceId: number, filter?: EntityQueryFilter, options: any = {}) : Promise<{ response: http.IncomingMessage; body: number;  }> {
+        const localVarPath = this.basePath + '/transaction/count';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling count.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(filter, "EntityQueryFilter")
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: number;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "number");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Creates the entity with the given properties.
+    * @summary Create
+    * @param spaceId 
+    * @param transaction The transaction object which should be created.
+    * @param {*} [options] Override http request options.
+    */
+    public create (spaceId: number, transaction: TransactionCreate, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Transaction;  }> {
+        const localVarPath = this.basePath + '/transaction/create';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling create.');
+            }
+
+            // verify required parameter 'transaction' is not null or undefined
+            if (transaction === null || transaction === undefined) {
+                throw new Error('Required parameter transaction was null or undefined when calling create.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(transaction, "TransactionCreate")
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Transaction;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Transaction");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation allows to create transaction credentials to delegate temporarily the access to the web service API for this particular transaction.
+    * @summary Create Transaction Credentials
+    * @param spaceId 
+    * @param id The id of the transaction which should be returned.
+    * @param {*} [options] Override http request options.
+    */
+    public createTransactionCredentials (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: string;  }> {
+        const localVarPath = this.basePath + '/transaction/createTransactionCredentials';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling createTransactionCredentials.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling createTransactionCredentials.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: string;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "string");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation removes the given token.
+    * @summary Delete One-Click Token with Credentials
+    * @param credentials The credentials identifies the transaction and contains the security details which grants the access this operation.
+    * @param tokenId The token ID will be used to find the token which should be removed.
+    * @param {*} [options] Override http request options.
+    */
+    public deleteOneClickTokenWithCredentials (credentials: string, tokenId: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+        const localVarPath = this.basePath + '/transaction/deleteOneClickTokenWithCredentials';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'credentials' is not null or undefined
+            if (credentials === null || credentials === undefined) {
+                throw new Error('Required parameter credentials was null or undefined when calling deleteOneClickTokenWithCredentials.');
+            }
+
+            // verify required parameter 'tokenId' is not null or undefined
+            if (tokenId === null || tokenId === undefined) {
+                throw new Error('Required parameter tokenId was null or undefined when calling deleteOneClickTokenWithCredentials.');
+            }
+
+        if (credentials !== undefined) {
+            localVarQueryParameters['credentials'] = ObjectSerializer.serialize(credentials, "string");
+        }
+
+        if (tokenId !== undefined) {
+            localVarQueryParameters['tokenId'] = ObjectSerializer.serialize(tokenId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation returns the token version objects which references the tokens usable as one-click payment tokens for the provided transaction.
+    * @summary Fetch One Click Tokens with Credentials
+    * @param credentials The credentials identifies the transaction and contains the security details which grants the access this operation.
+    * @param {*} [options] Override http request options.
+    */
+    public fetchOneClickTokensWithCredentials (credentials: string, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<TokenVersion>;  }> {
+        const localVarPath = this.basePath + '/transaction/fetchOneClickTokensWithCredentials';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'credentials' is not null or undefined
+            if (credentials === null || credentials === undefined) {
+                throw new Error('Required parameter credentials was null or undefined when calling fetchOneClickTokensWithCredentials.');
+            }
+
+        if (credentials !== undefined) {
+            localVarQueryParameters['credentials'] = ObjectSerializer.serialize(credentials, "string");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Array<TokenVersion>;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Array<TokenVersion>");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation allows to get the payment method configurations which can be used with the provided transaction.
+    * @summary Fetch Possible Payment Methods
+    * @param spaceId 
+    * @param id The id of the transaction which should be returned.
+    * @param {*} [options] Override http request options.
+    */
+    public fetchPossiblePaymentMethods (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<PaymentMethodConfiguration>;  }> {
+        const localVarPath = this.basePath + '/transaction/fetchPossiblePaymentMethods';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling fetchPossiblePaymentMethods.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling fetchPossiblePaymentMethods.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Array<PaymentMethodConfiguration>;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Array<PaymentMethodConfiguration>");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation allows to get the payment method configurations which can be used with the provided transaction.
+    * @summary Fetch Possible Payment Methods with Credentials
+    * @param credentials The credentials identifies the transaction and contains the security details which grants the access this operation.
+    * @param {*} [options] Override http request options.
+    */
+    public fetchPossiblePaymentMethodsWithCredentials (credentials: string, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<PaymentMethodConfiguration>;  }> {
+        const localVarPath = this.basePath + '/transaction/fetchPossiblePaymentMethodsWithCredentials';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'credentials' is not null or undefined
+            if (credentials === null || credentials === undefined) {
+                throw new Error('Required parameter credentials was null or undefined when calling fetchPossiblePaymentMethodsWithCredentials.');
+            }
+
+        if (credentials !== undefined) {
+            localVarQueryParameters['credentials'] = ObjectSerializer.serialize(credentials, "string");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Array<PaymentMethodConfiguration>;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Array<PaymentMethodConfiguration>");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Returns the PDF document for the transaction invoice with given id.
+    * @summary getInvoiceDocument
+    * @param spaceId 
+    * @param id The id of the transaction to get the invoice document for.
+    * @param {*} [options] Override http request options.
+    */
+    public getInvoiceDocument (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: RenderedDocument;  }> {
+        const localVarPath = this.basePath + '/transaction/getInvoiceDocument';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling getInvoiceDocument.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling getInvoiceDocument.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: RenderedDocument;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "RenderedDocument");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * 
+    * @summary getLatestTransactionLineItemVersion
+    * @param spaceId 
+    * @param id The id of the transaction to get the latest line item version for.
+    * @param {*} [options] Override http request options.
+    */
+    public getLatestTransactionLineItemVersion (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: TransactionLineItemVersion;  }> {
+        const localVarPath = this.basePath + '/transaction/getLatestTransactionLineItemVersion';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling getLatestTransactionLineItemVersion.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling getLatestTransactionLineItemVersion.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: TransactionLineItemVersion;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "TransactionLineItemVersion");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Returns the packing slip for the transaction with given id.
+    * @summary getPackingSlip
+    * @param spaceId 
+    * @param id The id of the transaction to get the packing slip for.
+    * @param {*} [options] Override http request options.
+    */
+    public getPackingSlip (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: RenderedDocument;  }> {
+        const localVarPath = this.basePath + '/transaction/getPackingSlip';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling getPackingSlip.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling getPackingSlip.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: RenderedDocument;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "RenderedDocument");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation assigns the given token to the transaction and process it. This method will return an URL where the customer has to be redirect to complete the transaction.
+    * @summary Process One-Click Token with Credentials
+    * @param credentials The credentials identifies the transaction and contains the security details which grants the access this operation.
+    * @param tokenId The token ID is used to load the corresponding token and to process the transaction with it.
+    * @param {*} [options] Override http request options.
+    */
+    public processOneClickTokenAndRedirectWithCredentials (credentials: string, tokenId: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: string;  }> {
+        const localVarPath = this.basePath + '/transaction/processOneClickTokenAndRedirectWithCredentials';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'credentials' is not null or undefined
+            if (credentials === null || credentials === undefined) {
+                throw new Error('Required parameter credentials was null or undefined when calling processOneClickTokenAndRedirectWithCredentials.');
+            }
+
+            // verify required parameter 'tokenId' is not null or undefined
+            if (tokenId === null || tokenId === undefined) {
+                throw new Error('Required parameter tokenId was null or undefined when calling processOneClickTokenAndRedirectWithCredentials.');
+            }
+
+        if (credentials !== undefined) {
+            localVarQueryParameters['credentials'] = ObjectSerializer.serialize(credentials, "string");
+        }
+
+        if (tokenId !== undefined) {
+            localVarQueryParameters['tokenId'] = ObjectSerializer.serialize(tokenId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: string;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "string");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation processes the transaction without requiring that the customer is present. Means this operation applies strategies to process the transaction without a direct interaction with the buyer. This operation is suitable for recurring transactions.
+    * @summary Process Without User Interaction
+    * @param spaceId 
+    * @param id The id of the transaction which should be processed.
+    * @param {*} [options] Override http request options.
+    */
+    public processWithoutUserInteraction (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Transaction;  }> {
+        const localVarPath = this.basePath + '/transaction/processWithoutUserInteraction';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling processWithoutUserInteraction.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling processWithoutUserInteraction.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Transaction;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Transaction");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Reads the entity with the given 'id' and returns it.
+    * @summary Read
+    * @param spaceId 
+    * @param id The id of the transaction which should be returned.
+    * @param {*} [options] Override http request options.
+    */
+    public read (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Transaction;  }> {
+        const localVarPath = this.basePath + '/transaction/read';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling read.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling read.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Transaction;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Transaction");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Reads the transaction with the given 'id' and returns it. This method uses the credentials to authenticate and identify the transaction.
+    * @summary Read With Credentials
+    * @param credentials The credentials identifies the transaction and contains the security details which grants the access this operation.
+    * @param {*} [options] Override http request options.
+    */
+    public readWithCredentials (credentials: string, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Transaction;  }> {
+        const localVarPath = this.basePath + '/transaction/readWithCredentials';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'credentials' is not null or undefined
+            if (credentials === null || credentials === undefined) {
+                throw new Error('Required parameter credentials was null or undefined when calling readWithCredentials.');
+            }
+
+        if (credentials !== undefined) {
+            localVarQueryParameters['credentials'] = ObjectSerializer.serialize(credentials, "string");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Transaction;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Transaction");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Searches for the entities as specified by the given query.
+    * @summary Search
+    * @param spaceId 
+    * @param query The query restricts the transactions which are returned by the search.
+    * @param {*} [options] Override http request options.
+    */
+    public search (spaceId: number, query: EntityQuery, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<Transaction>;  }> {
+        const localVarPath = this.basePath + '/transaction/search';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling search.');
+            }
+
+            // verify required parameter 'query' is not null or undefined
+            if (query === null || query === undefined) {
+                throw new Error('Required parameter query was null or undefined when calling search.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(query, "EntityQuery")
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Array<Transaction>;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Array<Transaction>");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This updates the entity with the given properties. Only those properties which should be updated can be provided. The 'id' and 'version' are required to identify the entity.
+    * @summary Update
+    * @param spaceId 
+    * @param entity The transaction object with the properties which should be updated.
+    * @param {*} [options] Override http request options.
+    */
+    public update (spaceId: number, entity: TransactionPending, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Transaction;  }> {
+        const localVarPath = this.basePath + '/transaction/update';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling update.');
+            }
+
+            // verify required parameter 'entity' is not null or undefined
+            if (entity === null || entity === undefined) {
+                throw new Error('Required parameter entity was null or undefined when calling update.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(entity, "TransactionPending")
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Transaction;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Transaction");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * 
+    * @summary updateTransactionLineItems
+    * @param spaceId 
+    * @param updateRequest 
+    * @param {*} [options] Override http request options.
+    */
+    public updateTransactionLineItems (spaceId: number, updateRequest: TransactionLineItemUpdateRequest, options: any = {}) : Promise<{ response: http.IncomingMessage; body: TransactionLineItemVersion;  }> {
+        const localVarPath = this.basePath + '/transaction/updateTransactionLineItems';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling updateTransactionLineItems.');
+            }
+
+            // verify required parameter 'updateRequest' is not null or undefined
+            if (updateRequest === null || updateRequest === undefined) {
+                throw new Error('Required parameter updateRequest was null or undefined when calling updateTransactionLineItems.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(updateRequest, "TransactionLineItemUpdateRequest")
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: TransactionLineItemVersion;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "TransactionLineItemVersion");
+                            resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+}
+
+export { TransactionService }

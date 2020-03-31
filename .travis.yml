@@ -1,0 +1,14 @@
+language: node_js
+os: linux
+node_js:
+- 10.16.3
+script: npm test
+deploy:
+    edge: true
+    provider: npm
+    email: "NPM_EMAIL"
+    api_token: "$NPM_TOKEN"
+    on:
+        tags: true
+        repo: pfpayments/typescript-sdk
+    skip_cleanup: true
