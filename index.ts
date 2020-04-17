@@ -240,6 +240,7 @@ import { TransactionCompletionService as TransactionCompletionServiceApiImport }
 import { TransactionIframeService as TransactionIframeServiceApiImport } from "./src/api/TransactionIframeService";
 import { TransactionInvoiceCommentService as TransactionInvoiceCommentServiceApiImport } from "./src/api/TransactionInvoiceCommentService";
 import { TransactionInvoiceService as TransactionInvoiceServiceApiImport } from "./src/api/TransactionInvoiceService";
+import { TransactionLightboxService as TransactionLightboxServiceApiImport } from "./src/api/TransactionLightboxService";
 import { TransactionMobileSdkService as TransactionMobileSdkServiceApiImport } from "./src/api/TransactionMobileSdkService";
 import { TransactionPaymentPageService as TransactionPaymentPageServiceApiImport } from "./src/api/TransactionPaymentPageService";
 import { TransactionService as TransactionServiceApiImport } from "./src/api/TransactionService";
@@ -737,6 +738,8 @@ export namespace PostFinanceCheckout {
         export const TransactionInvoiceCommentService = TransactionInvoiceCommentServiceApiImport;
         export type TransactionInvoiceService = TransactionInvoiceServiceApiImport;
         export const TransactionInvoiceService = TransactionInvoiceServiceApiImport;
+        export type TransactionLightboxService = TransactionLightboxServiceApiImport;
+        export const TransactionLightboxService = TransactionLightboxServiceApiImport;
         export type TransactionMobileSdkService = TransactionMobileSdkServiceApiImport;
         export const TransactionMobileSdkService = TransactionMobileSdkServiceApiImport;
         export type TransactionPaymentPageService = TransactionPaymentPageServiceApiImport;
