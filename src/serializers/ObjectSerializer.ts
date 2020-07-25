@@ -126,6 +126,9 @@ import { Role } from "../models/Role";
 import { SalesChannel } from "../models/SalesChannel";
 import { Scope } from "../models/Scope";
 import { ServerError } from "../models/ServerError";
+import { ShopifyIntegration } from "../models/ShopifyIntegration";
+import { ShopifyIntegrationAppVersion } from "../models/ShopifyIntegrationAppVersion";
+import { ShopifyTransactionState } from "../models/ShopifyTransactionState";
 import { Space } from "../models/Space";
 import { SpaceAddress } from "../models/SpaceAddress";
 import { SpaceAddressCreate } from "../models/SpaceAddressCreate";
@@ -184,8 +187,10 @@ import { CustomerCreate } from "../models/CustomerCreate";
 import { DeliveryIndication } from "../models/DeliveryIndication";
 import { HumanUserCreate } from "../models/HumanUserCreate";
 import { HumanUserUpdate } from "../models/HumanUserUpdate";
+import { PaymentTerminalContactAddress } from "../models/PaymentTerminalContactAddress";
 import { RefundCommentActive } from "../models/RefundCommentActive";
 import { RefundCommentCreate } from "../models/RefundCommentCreate";
+import { ShopifyTransaction } from "../models/ShopifyTransaction";
 import { SpaceCreate } from "../models/SpaceCreate";
 import { SpaceUpdate } from "../models/SpaceUpdate";
 import { TransactionCommentActive } from "../models/TransactionCommentActive";
@@ -255,6 +260,8 @@ class ObjectSerializer {
         "RefundType": RefundType,
         "ResourceState": ResourceState,
         "RestAddressFormatField": RestAddressFormatField,
+        "ShopifyIntegrationAppVersion": ShopifyIntegrationAppVersion,
+        "ShopifyTransactionState": ShopifyTransactionState,
         "TokenVersionState": TokenVersionState,
         "TokenizationMode": TokenizationMode,
         "TransactionCompletionMode": TransactionCompletionMode,
@@ -361,6 +368,7 @@ class ObjectSerializer {
                 "SalesChannel": SalesChannel,
                 "Scope": Scope,
                 "ServerError": ServerError,
+                "ShopifyIntegration": ShopifyIntegration,
                 "Space": Space,
                 "SpaceAddress": SpaceAddress,
                 "SpaceAddressCreate": SpaceAddressCreate,
@@ -407,8 +415,10 @@ class ObjectSerializer {
                 "DeliveryIndication": DeliveryIndication,
                 "HumanUserCreate": HumanUserCreate,
                 "HumanUserUpdate": HumanUserUpdate,
+                "PaymentTerminalContactAddress": PaymentTerminalContactAddress,
                 "RefundCommentActive": RefundCommentActive,
                 "RefundCommentCreate": RefundCommentCreate,
+                "ShopifyTransaction": ShopifyTransaction,
                 "SpaceCreate": SpaceCreate,
                 "SpaceUpdate": SpaceUpdate,
                 "TransactionCommentActive": TransactionCommentActive,
