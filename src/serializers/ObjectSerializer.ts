@@ -5,8 +5,10 @@ import { AbstractCustomerActive } from "../models/AbstractCustomerActive";
 import { AbstractCustomerAddressActive } from "../models/AbstractCustomerAddressActive";
 import { AbstractCustomerCommentActive } from "../models/AbstractCustomerCommentActive";
 import { AbstractHumanUserUpdate } from "../models/AbstractHumanUserUpdate";
+import { AbstractPaymentLinkUpdate } from "../models/AbstractPaymentLinkUpdate";
 import { AbstractRefundCommentActive } from "../models/AbstractRefundCommentActive";
 import { AbstractSpaceUpdate } from "../models/AbstractSpaceUpdate";
+import { AbstractTokenUpdate } from "../models/AbstractTokenUpdate";
 import { AbstractTransactionCommentActive } from "../models/AbstractTransactionCommentActive";
 import { AbstractTransactionInvoiceCommentActive } from "../models/AbstractTransactionInvoiceCommentActive";
 import { AbstractTransactionPending } from "../models/AbstractTransactionPending";
@@ -46,6 +48,7 @@ import { DatabaseTranslatedString } from "../models/DatabaseTranslatedString";
 import { DatabaseTranslatedStringItem } from "../models/DatabaseTranslatedStringItem";
 import { DeliveryIndicationDecisionReason } from "../models/DeliveryIndicationDecisionReason";
 import { DeliveryIndicationState } from "../models/DeliveryIndicationState";
+import { DocumentTemplate } from "../models/DocumentTemplate";
 import { DocumentTemplateType } from "../models/DocumentTemplateType";
 import { DocumentTemplateTypeGroup } from "../models/DocumentTemplateTypeGroup";
 import { EntityExportRequest } from "../models/EntityExportRequest";
@@ -89,6 +92,9 @@ import { PaymentContractState } from "../models/PaymentContractState";
 import { PaymentContractType } from "../models/PaymentContractType";
 import { PaymentInformationHash } from "../models/PaymentInformationHash";
 import { PaymentInformationHashType } from "../models/PaymentInformationHashType";
+import { PaymentLink } from "../models/PaymentLink";
+import { PaymentLinkProtectionMode } from "../models/PaymentLinkProtectionMode";
+import { PaymentLinkUpdate } from "../models/PaymentLinkUpdate";
 import { PaymentMethod } from "../models/PaymentMethod";
 import { PaymentMethodBrand } from "../models/PaymentMethodBrand";
 import { PaymentMethodConfiguration } from "../models/PaymentMethodConfiguration";
@@ -126,8 +132,10 @@ import { Role } from "../models/Role";
 import { SalesChannel } from "../models/SalesChannel";
 import { Scope } from "../models/Scope";
 import { ServerError } from "../models/ServerError";
+import { ShopifyAdditionalLineItemData } from "../models/ShopifyAdditionalLineItemData";
 import { ShopifyIntegration } from "../models/ShopifyIntegration";
-import { ShopifyIntegrationAppVersion } from "../models/ShopifyIntegrationAppVersion";
+import { ShopifyIntegrationPaymentAppVersion } from "../models/ShopifyIntegrationPaymentAppVersion";
+import { ShopifyIntegrationSubscriptionAppVersion } from "../models/ShopifyIntegrationSubscriptionAppVersion";
 import { ShopifyTransactionState } from "../models/ShopifyTransactionState";
 import { Space } from "../models/Space";
 import { SpaceAddress } from "../models/SpaceAddress";
@@ -145,6 +153,7 @@ import { TokenizationMode } from "../models/TokenizationMode";
 import { Transaction } from "../models/Transaction";
 import { TransactionAwareEntity } from "../models/TransactionAwareEntity";
 import { TransactionComment } from "../models/TransactionComment";
+import { TransactionCompletionBehavior } from "../models/TransactionCompletionBehavior";
 import { TransactionCompletionMode } from "../models/TransactionCompletionMode";
 import { TransactionCompletionRequest } from "../models/TransactionCompletionRequest";
 import { TransactionCompletionState } from "../models/TransactionCompletionState";
@@ -187,12 +196,16 @@ import { CustomerCreate } from "../models/CustomerCreate";
 import { DeliveryIndication } from "../models/DeliveryIndication";
 import { HumanUserCreate } from "../models/HumanUserCreate";
 import { HumanUserUpdate } from "../models/HumanUserUpdate";
+import { PaymentLinkActive } from "../models/PaymentLinkActive";
+import { PaymentLinkCreate } from "../models/PaymentLinkCreate";
 import { PaymentTerminalContactAddress } from "../models/PaymentTerminalContactAddress";
 import { RefundCommentActive } from "../models/RefundCommentActive";
 import { RefundCommentCreate } from "../models/RefundCommentCreate";
 import { ShopifyTransaction } from "../models/ShopifyTransaction";
 import { SpaceCreate } from "../models/SpaceCreate";
 import { SpaceUpdate } from "../models/SpaceUpdate";
+import { TokenCreate } from "../models/TokenCreate";
+import { TokenUpdate } from "../models/TokenUpdate";
 import { TransactionCommentActive } from "../models/TransactionCommentActive";
 import { TransactionCommentCreate } from "../models/TransactionCommentCreate";
 import { TransactionCompletion } from "../models/TransactionCompletion";
@@ -250,6 +263,7 @@ class ObjectSerializer {
         "ManualTaskState": ManualTaskState,
         "OneClickPaymentMode": OneClickPaymentMode,
         "PaymentContractState": PaymentContractState,
+        "PaymentLinkProtectionMode": PaymentLinkProtectionMode,
         "PaymentPrimaryRiskTaker": PaymentPrimaryRiskTaker,
         "PaymentTerminalConfigurationState": PaymentTerminalConfigurationState,
         "PaymentTerminalConfigurationVersionState": PaymentTerminalConfigurationVersionState,
@@ -260,10 +274,13 @@ class ObjectSerializer {
         "RefundType": RefundType,
         "ResourceState": ResourceState,
         "RestAddressFormatField": RestAddressFormatField,
-        "ShopifyIntegrationAppVersion": ShopifyIntegrationAppVersion,
+        "ShopifyAdditionalLineItemData": ShopifyAdditionalLineItemData,
+        "ShopifyIntegrationPaymentAppVersion": ShopifyIntegrationPaymentAppVersion,
+        "ShopifyIntegrationSubscriptionAppVersion": ShopifyIntegrationSubscriptionAppVersion,
         "ShopifyTransactionState": ShopifyTransactionState,
         "TokenVersionState": TokenVersionState,
         "TokenizationMode": TokenizationMode,
+        "TransactionCompletionBehavior": TransactionCompletionBehavior,
         "TransactionCompletionMode": TransactionCompletionMode,
         "TransactionCompletionState": TransactionCompletionState,
         "TransactionEnvironmentSelectionStrategy": TransactionEnvironmentSelectionStrategy,
@@ -283,8 +300,10 @@ class ObjectSerializer {
                 "AbstractCustomerAddressActive": AbstractCustomerAddressActive,
                 "AbstractCustomerCommentActive": AbstractCustomerCommentActive,
                 "AbstractHumanUserUpdate": AbstractHumanUserUpdate,
+                "AbstractPaymentLinkUpdate": AbstractPaymentLinkUpdate,
                 "AbstractRefundCommentActive": AbstractRefundCommentActive,
                 "AbstractSpaceUpdate": AbstractSpaceUpdate,
+                "AbstractTokenUpdate": AbstractTokenUpdate,
                 "AbstractTransactionCommentActive": AbstractTransactionCommentActive,
                 "AbstractTransactionInvoiceCommentActive": AbstractTransactionInvoiceCommentActive,
                 "AbstractTransactionPending": AbstractTransactionPending,
@@ -309,6 +328,7 @@ class ObjectSerializer {
                 "DatabaseTranslatedString": DatabaseTranslatedString,
                 "DatabaseTranslatedStringItem": DatabaseTranslatedStringItem,
                 "DeliveryIndicationDecisionReason": DeliveryIndicationDecisionReason,
+                "DocumentTemplate": DocumentTemplate,
                 "DocumentTemplateType": DocumentTemplateType,
                 "DocumentTemplateTypeGroup": DocumentTemplateTypeGroup,
                 "EntityExportRequest": EntityExportRequest,
@@ -341,6 +361,8 @@ class ObjectSerializer {
                 "PaymentContractType": PaymentContractType,
                 "PaymentInformationHash": PaymentInformationHash,
                 "PaymentInformationHashType": PaymentInformationHashType,
+                "PaymentLink": PaymentLink,
+                "PaymentLinkUpdate": PaymentLinkUpdate,
                 "PaymentMethod": PaymentMethod,
                 "PaymentMethodBrand": PaymentMethodBrand,
                 "PaymentMethodConfiguration": PaymentMethodConfiguration,
@@ -415,12 +437,16 @@ class ObjectSerializer {
                 "DeliveryIndication": DeliveryIndication,
                 "HumanUserCreate": HumanUserCreate,
                 "HumanUserUpdate": HumanUserUpdate,
+                "PaymentLinkActive": PaymentLinkActive,
+                "PaymentLinkCreate": PaymentLinkCreate,
                 "PaymentTerminalContactAddress": PaymentTerminalContactAddress,
                 "RefundCommentActive": RefundCommentActive,
                 "RefundCommentCreate": RefundCommentCreate,
                 "ShopifyTransaction": ShopifyTransaction,
                 "SpaceCreate": SpaceCreate,
                 "SpaceUpdate": SpaceUpdate,
+                "TokenCreate": TokenCreate,
+                "TokenUpdate": TokenUpdate,
                 "TransactionCommentActive": TransactionCommentActive,
                 "TransactionCommentCreate": TransactionCommentCreate,
                 "TransactionCompletion": TransactionCompletion,

@@ -8,13 +8,13 @@ import { Authentication } from '../auth/Authentication';
 import { VoidAuth } from '../auth/VoidAuth';
 import { ObjectSerializer } from '../serializers/ObjectSerializer';
 
-import { ChargeFlowLevelPaymentLink } from  '../models/ChargeFlowLevelPaymentLink';
 import { ClientError } from  '../models/ClientError';
+import { DocumentTemplate } from  '../models/DocumentTemplate';
 import { EntityQuery } from  '../models/EntityQuery';
 import { EntityQueryFilter } from  '../models/EntityQueryFilter';
 import { ServerError } from  '../models/ServerError';
 
-class ChargeFlowLevelPaymentLinkService {
+class DocumentTemplateService {
     protected _basePath = 'https://checkout.postfinance.ch:443/api';
     protected defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
@@ -51,7 +51,7 @@ class ChargeFlowLevelPaymentLinkService {
     * @param {*} [options] Override http request options.
     */
     public count (spaceId: number, filter?: EntityQueryFilter, options: any = {}) : Promise<{ response: http.IncomingMessage; body: number;  }> {
-        const localVarPath = this.basePath + '/charge-flow-level-payment-link/count';
+        const localVarPath = this.basePath + '/document-template/count';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -133,11 +133,11 @@ class ChargeFlowLevelPaymentLinkService {
     * Reads the entity with the given 'id' and returns it.
     * @summary Read
     * @param spaceId 
-    * @param id The ID of the charge flow level payment link which should be returned.
+    * @param id The id of the document template which should be returned.
     * @param {*} [options] Override http request options.
     */
-    public read (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: ChargeFlowLevelPaymentLink;  }> {
-        const localVarPath = this.basePath + '/charge-flow-level-payment-link/read';
+    public read (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: DocumentTemplate;  }> {
+        const localVarPath = this.basePath + '/document-template/read';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -182,14 +182,14 @@ class ChargeFlowLevelPaymentLinkService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body: ChargeFlowLevelPaymentLink;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: DocumentTemplate;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "ChargeFlowLevelPaymentLink");
+                            body = ObjectSerializer.deserialize(body, "DocumentTemplate");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -227,11 +227,11 @@ class ChargeFlowLevelPaymentLinkService {
     * Searches for the entities as specified by the given query.
     * @summary Search
     * @param spaceId 
-    * @param query The query restricts the charge flow level payment links which are returned by the search.
+    * @param query The query restricts the document templates which are returned by the search.
     * @param {*} [options] Override http request options.
     */
-    public search (spaceId: number, query: EntityQuery, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<ChargeFlowLevelPaymentLink>;  }> {
-        const localVarPath = this.basePath + '/charge-flow-level-payment-link/search';
+    public search (spaceId: number, query: EntityQuery, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<DocumentTemplate>;  }> {
+        const localVarPath = this.basePath + '/document-template/search';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -273,14 +273,14 @@ class ChargeFlowLevelPaymentLinkService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body: Array<ChargeFlowLevelPaymentLink>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: Array<DocumentTemplate>;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "Array<ChargeFlowLevelPaymentLink>");
+                            body = ObjectSerializer.deserialize(body, "Array<DocumentTemplate>");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -316,4 +316,4 @@ class ChargeFlowLevelPaymentLinkService {
     }
 }
 
-export { ChargeFlowLevelPaymentLinkService }
+export { DocumentTemplateService }

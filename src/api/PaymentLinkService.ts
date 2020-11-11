@@ -9,14 +9,14 @@ import { VoidAuth } from '../auth/VoidAuth';
 import { ObjectSerializer } from '../serializers/ObjectSerializer';
 
 import { ClientError } from  '../models/ClientError';
-import { Customer } from  '../models/Customer';
-import { CustomerActive } from  '../models/CustomerActive';
-import { CustomerCreate } from  '../models/CustomerCreate';
 import { EntityQuery } from  '../models/EntityQuery';
 import { EntityQueryFilter } from  '../models/EntityQueryFilter';
+import { PaymentLink } from  '../models/PaymentLink';
+import { PaymentLinkCreate } from  '../models/PaymentLinkCreate';
+import { PaymentLinkUpdate } from  '../models/PaymentLinkUpdate';
 import { ServerError } from  '../models/ServerError';
 
-class CustomerService {
+class PaymentLinkService {
     protected _basePath = 'https://checkout.postfinance.ch:443/api';
     protected defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
@@ -53,7 +53,7 @@ class CustomerService {
     * @param {*} [options] Override http request options.
     */
     public _delete (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/customer/delete';
+        const localVarPath = this.basePath + '/payment-link/delete';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -144,7 +144,7 @@ class CustomerService {
     * @param {*} [options] Override http request options.
     */
     public count (spaceId: number, filter?: EntityQueryFilter, options: any = {}) : Promise<{ response: http.IncomingMessage; body: number;  }> {
-        const localVarPath = this.basePath + '/customer/count';
+        const localVarPath = this.basePath + '/payment-link/count';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -226,11 +226,11 @@ class CustomerService {
     * Creates the entity with the given properties.
     * @summary Create
     * @param spaceId 
-    * @param entity The customer object which should be created.
+    * @param entity The payment link object with the properties which should be created.
     * @param {*} [options] Override http request options.
     */
-    public create (spaceId: number, entity: CustomerCreate, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Customer;  }> {
-        const localVarPath = this.basePath + '/customer/create';
+    public create (spaceId: number, entity: PaymentLinkCreate, options: any = {}) : Promise<{ response: http.IncomingMessage; body: PaymentLink;  }> {
+        const localVarPath = this.basePath + '/payment-link/create';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -260,7 +260,7 @@ class CustomerService {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(entity, "CustomerCreate"),
+            body: ObjectSerializer.serialize(entity, "PaymentLinkCreate"),
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -272,14 +272,14 @@ class CustomerService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body: Customer;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: PaymentLink;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "Customer");
+                            body = ObjectSerializer.deserialize(body, "PaymentLink");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -317,11 +317,11 @@ class CustomerService {
     * Reads the entity with the given 'id' and returns it.
     * @summary Read
     * @param spaceId 
-    * @param id The id of the customer which should be returned.
+    * @param id The id of the payment links which should be returned.
     * @param {*} [options] Override http request options.
     */
-    public read (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Customer;  }> {
-        const localVarPath = this.basePath + '/customer/read';
+    public read (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: PaymentLink;  }> {
+        const localVarPath = this.basePath + '/payment-link/read';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -366,14 +366,14 @@ class CustomerService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body: Customer;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: PaymentLink;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "Customer");
+                            body = ObjectSerializer.deserialize(body, "PaymentLink");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -411,11 +411,11 @@ class CustomerService {
     * Searches for the entities as specified by the given query.
     * @summary Search
     * @param spaceId 
-    * @param query The query restricts the customers which are returned by the search.
+    * @param query The query restricts the payment links which are returned by the search.
     * @param {*} [options] Override http request options.
     */
-    public search (spaceId: number, query: EntityQuery, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<Customer>;  }> {
-        const localVarPath = this.basePath + '/customer/search';
+    public search (spaceId: number, query: EntityQuery, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<PaymentLink>;  }> {
+        const localVarPath = this.basePath + '/payment-link/search';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -457,14 +457,14 @@ class CustomerService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body: Array<Customer>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: Array<PaymentLink>;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "Array<Customer>");
+                            body = ObjectSerializer.deserialize(body, "Array<PaymentLink>");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -502,11 +502,11 @@ class CustomerService {
     * This updates the entity with the given properties. Only those properties which should be updated can be provided. The 'id' and 'version' are required to identify the entity.
     * @summary Update
     * @param spaceId 
-    * @param entity The customer object with the properties which should be updated.
+    * @param entity The object with all the properties which should be updated. The id and the version are required properties.
     * @param {*} [options] Override http request options.
     */
-    public update (spaceId: number, entity: CustomerActive, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Customer;  }> {
-        const localVarPath = this.basePath + '/customer/update';
+    public update (spaceId: number, entity: PaymentLinkUpdate, options: any = {}) : Promise<{ response: http.IncomingMessage; body: PaymentLink;  }> {
+        const localVarPath = this.basePath + '/payment-link/update';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
@@ -536,7 +536,7 @@ class CustomerService {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(entity, "CustomerActive"),
+            body: ObjectSerializer.serialize(entity, "PaymentLinkUpdate"),
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -548,14 +548,14 @@ class CustomerService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body: Customer;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: PaymentLink;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "Customer");
+                            body = ObjectSerializer.deserialize(body, "PaymentLink");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -591,4 +591,4 @@ class CustomerService {
     }
 }
 
-export { CustomerService }
+export { PaymentLinkService }
