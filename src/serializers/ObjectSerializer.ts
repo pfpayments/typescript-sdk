@@ -19,6 +19,15 @@ import { AccountState } from "../models/AccountState";
 import { AccountType } from "../models/AccountType";
 import { Address } from "../models/Address";
 import { AddressCreate } from "../models/AddressCreate";
+import { BankAccount } from "../models/BankAccount";
+import { BankAccountEnvironment } from "../models/BankAccountEnvironment";
+import { BankAccountState } from "../models/BankAccountState";
+import { BankAccountType } from "../models/BankAccountType";
+import { BankTransaction } from "../models/BankTransaction";
+import { BankTransactionFlowDirection } from "../models/BankTransactionFlowDirection";
+import { BankTransactionSource } from "../models/BankTransactionSource";
+import { BankTransactionState } from "../models/BankTransactionState";
+import { BankTransactionType } from "../models/BankTransactionType";
 import { ChargeAttemptEnvironment } from "../models/ChargeAttemptEnvironment";
 import { ChargeAttemptState } from "../models/ChargeAttemptState";
 import { ChargeFlow } from "../models/ChargeFlow";
@@ -36,6 +45,7 @@ import { ConditionType } from "../models/ConditionType";
 import { ConnectorInvocationStage } from "../models/ConnectorInvocationStage";
 import { CreationEntityState } from "../models/CreationEntityState";
 import { CriteriaOperator } from "../models/CriteriaOperator";
+import { CurrencyBankAccount } from "../models/CurrencyBankAccount";
 import { Customer } from "../models/Customer";
 import { CustomerAddress } from "../models/CustomerAddress";
 import { CustomerAddressType } from "../models/CustomerAddressType";
@@ -58,12 +68,14 @@ import { EntityQueryFilterType } from "../models/EntityQueryFilterType";
 import { EntityQueryOrderBy } from "../models/EntityQueryOrderBy";
 import { EntityQueryOrderByType } from "../models/EntityQueryOrderByType";
 import { Environment } from "../models/Environment";
+import { ExternalTransferBankTransaction } from "../models/ExternalTransferBankTransaction";
 import { FailureCategory } from "../models/FailureCategory";
 import { FailureReason } from "../models/FailureReason";
 import { Feature } from "../models/Feature";
 import { FeatureCategory } from "../models/FeatureCategory";
 import { Gender } from "../models/Gender";
 import { HumanUser } from "../models/HumanUser";
+import { InternalTransferBankTransaction } from "../models/InternalTransferBankTransaction";
 import { Label } from "../models/Label";
 import { LabelDescriptor } from "../models/LabelDescriptor";
 import { LabelDescriptorCategory } from "../models/LabelDescriptorCategory";
@@ -84,6 +96,8 @@ import { ManualTaskActionStyle } from "../models/ManualTaskActionStyle";
 import { ManualTaskState } from "../models/ManualTaskState";
 import { ManualTaskType } from "../models/ManualTaskType";
 import { OneClickPaymentMode } from "../models/OneClickPaymentMode";
+import { PaymentAdjustment } from "../models/PaymentAdjustment";
+import { PaymentAdjustmentType } from "../models/PaymentAdjustmentType";
 import { PaymentConnector } from "../models/PaymentConnector";
 import { PaymentConnectorConfiguration } from "../models/PaymentConnectorConfiguration";
 import { PaymentConnectorFeature } from "../models/PaymentConnectorFeature";
@@ -93,6 +107,7 @@ import { PaymentContractType } from "../models/PaymentContractType";
 import { PaymentInformationHash } from "../models/PaymentInformationHash";
 import { PaymentInformationHashType } from "../models/PaymentInformationHashType";
 import { PaymentLink } from "../models/PaymentLink";
+import { PaymentLinkAddressHandlingMode } from "../models/PaymentLinkAddressHandlingMode";
 import { PaymentLinkProtectionMode } from "../models/PaymentLinkProtectionMode";
 import { PaymentLinkUpdate } from "../models/PaymentLinkUpdate";
 import { PaymentMethod } from "../models/PaymentMethod";
@@ -184,6 +199,7 @@ import { ApplicationUserCreate } from "../models/ApplicationUserCreate";
 import { ApplicationUserUpdate } from "../models/ApplicationUserUpdate";
 import { Charge } from "../models/Charge";
 import { ChargeAttempt } from "../models/ChargeAttempt";
+import { ChargeBankTransaction } from "../models/ChargeBankTransaction";
 import { ChargeFlowLevel } from "../models/ChargeFlowLevel";
 import { ChargeFlowLevelPaymentLink } from "../models/ChargeFlowLevelPaymentLink";
 import { ConnectorInvocation } from "../models/ConnectorInvocation";
@@ -198,9 +214,10 @@ import { HumanUserCreate } from "../models/HumanUserCreate";
 import { HumanUserUpdate } from "../models/HumanUserUpdate";
 import { PaymentLinkActive } from "../models/PaymentLinkActive";
 import { PaymentLinkCreate } from "../models/PaymentLinkCreate";
-import { PaymentTerminalContactAddress } from "../models/PaymentTerminalContactAddress";
+import { RefundBankTransaction } from "../models/RefundBankTransaction";
 import { RefundCommentActive } from "../models/RefundCommentActive";
 import { RefundCommentCreate } from "../models/RefundCommentCreate";
+import { RefundRecoveryBankTransaction } from "../models/RefundRecoveryBankTransaction";
 import { ShopifyTransaction } from "../models/ShopifyTransaction";
 import { SpaceCreate } from "../models/SpaceCreate";
 import { SpaceUpdate } from "../models/SpaceUpdate";
@@ -239,6 +256,10 @@ class ObjectSerializer {
     static enumsMap: {[index: string]: any} = {
         "AccountState": AccountState,
         "AccountType": AccountType,
+        "BankAccountEnvironment": BankAccountEnvironment,
+        "BankAccountState": BankAccountState,
+        "BankTransactionFlowDirection": BankTransactionFlowDirection,
+        "BankTransactionState": BankTransactionState,
         "ChargeAttemptEnvironment": ChargeAttemptEnvironment,
         "ChargeAttemptState": ChargeAttemptState,
         "ChargeFlowLevelState": ChargeFlowLevelState,
@@ -263,6 +284,7 @@ class ObjectSerializer {
         "ManualTaskState": ManualTaskState,
         "OneClickPaymentMode": OneClickPaymentMode,
         "PaymentContractState": PaymentContractState,
+        "PaymentLinkAddressHandlingMode": PaymentLinkAddressHandlingMode,
         "PaymentLinkProtectionMode": PaymentLinkProtectionMode,
         "PaymentPrimaryRiskTaker": PaymentPrimaryRiskTaker,
         "PaymentTerminalConfigurationState": PaymentTerminalConfigurationState,
@@ -312,6 +334,11 @@ class ObjectSerializer {
                 "Account": Account,
                 "Address": Address,
                 "AddressCreate": AddressCreate,
+                "BankAccount": BankAccount,
+                "BankAccountType": BankAccountType,
+                "BankTransaction": BankTransaction,
+                "BankTransactionSource": BankTransactionSource,
+                "BankTransactionType": BankTransactionType,
                 "ChargeFlow": ChargeFlow,
                 "ChargeFlowLevelConfiguration": ChargeFlowLevelConfiguration,
                 "ChargeFlowLevelConfigurationType": ChargeFlowLevelConfigurationType,
@@ -320,6 +347,7 @@ class ObjectSerializer {
                 "CompletionLineItemCreate": CompletionLineItemCreate,
                 "Condition": Condition,
                 "ConditionType": ConditionType,
+                "CurrencyBankAccount": CurrencyBankAccount,
                 "Customer": Customer,
                 "CustomerAddress": CustomerAddress,
                 "CustomerComment": CustomerComment,
@@ -335,10 +363,12 @@ class ObjectSerializer {
                 "EntityQuery": EntityQuery,
                 "EntityQueryFilter": EntityQueryFilter,
                 "EntityQueryOrderBy": EntityQueryOrderBy,
+                "ExternalTransferBankTransaction": ExternalTransferBankTransaction,
                 "FailureReason": FailureReason,
                 "Feature": Feature,
                 "FeatureCategory": FeatureCategory,
                 "HumanUser": HumanUser,
+                "InternalTransferBankTransaction": InternalTransferBankTransaction,
                 "Label": Label,
                 "LabelDescriptor": LabelDescriptor,
                 "LabelDescriptorGroup": LabelDescriptorGroup,
@@ -354,6 +384,8 @@ class ObjectSerializer {
                 "ManualTask": ManualTask,
                 "ManualTaskAction": ManualTaskAction,
                 "ManualTaskType": ManualTaskType,
+                "PaymentAdjustment": PaymentAdjustment,
+                "PaymentAdjustmentType": PaymentAdjustmentType,
                 "PaymentConnector": PaymentConnector,
                 "PaymentConnectorConfiguration": PaymentConnectorConfiguration,
                 "PaymentConnectorFeature": PaymentConnectorFeature,
@@ -425,6 +457,7 @@ class ObjectSerializer {
                 "ApplicationUserUpdate": ApplicationUserUpdate,
                 "Charge": Charge,
                 "ChargeAttempt": ChargeAttempt,
+                "ChargeBankTransaction": ChargeBankTransaction,
                 "ChargeFlowLevel": ChargeFlowLevel,
                 "ChargeFlowLevelPaymentLink": ChargeFlowLevelPaymentLink,
                 "ConnectorInvocation": ConnectorInvocation,
@@ -439,9 +472,10 @@ class ObjectSerializer {
                 "HumanUserUpdate": HumanUserUpdate,
                 "PaymentLinkActive": PaymentLinkActive,
                 "PaymentLinkCreate": PaymentLinkCreate,
-                "PaymentTerminalContactAddress": PaymentTerminalContactAddress,
+                "RefundBankTransaction": RefundBankTransaction,
                 "RefundCommentActive": RefundCommentActive,
                 "RefundCommentCreate": RefundCommentCreate,
+                "RefundRecoveryBankTransaction": RefundRecoveryBankTransaction,
                 "ShopifyTransaction": ShopifyTransaction,
                 "SpaceCreate": SpaceCreate,
                 "SpaceUpdate": SpaceUpdate,

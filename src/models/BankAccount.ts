@@ -1,21 +1,13 @@
 'use strict';
-import { PaymentTerminalConfigurationVersion } from "./PaymentTerminalConfigurationVersion";
-import { PaymentTerminalLocationVersion } from "./PaymentTerminalLocationVersion";
-import { PaymentTerminalState } from "./PaymentTerminalState";
-import { PaymentTerminalType } from "./PaymentTerminalType";
+import { BankAccountState } from "./BankAccountState";
 
 
-class PaymentTerminal {
+class BankAccount {
 
         /**
-        * 
+        * The optional description is shown along the identifier. The intention of the description is to give an alternative name to the bank account.
         */
-    'configurationVersion'?: PaymentTerminalConfigurationVersion;
-
-        /**
-        * 
-        */
-    'defaultCurrency'?: string;
+    'description'?: string;
 
         /**
         * The ID is the primary key of the entity. The ID identifies the entity uniquely.
@@ -23,7 +15,7 @@ class PaymentTerminal {
     'id'?: number;
 
         /**
-        * The identifier uniquely identifies the terminal. Normally it is visible on the device or in the display of the device.
+        * The bank account identifier is responsible to uniquely identify the bank account.
         */
     'identifier'?: string;
 
@@ -33,16 +25,6 @@ class PaymentTerminal {
     'linkedSpaceId'?: number;
 
         /**
-        * 
-        */
-    'locationVersion'?: PaymentTerminalLocationVersion;
-
-        /**
-        * The terminal name is used internally to identify the terminal in administrative interfaces. For example it is used within search fields and hence it should be distinct and descriptive.
-        */
-    'name'?: string;
-
-        /**
         * The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
         */
     'plannedPurgeDate'?: Date;
@@ -50,12 +32,12 @@ class PaymentTerminal {
         /**
         * 
         */
-    'state'?: PaymentTerminalState;
+    'state'?: BankAccountState;
 
         /**
         * 
         */
-    'type'?: PaymentTerminalType;
+    'type'?: number;
 
         /**
         * The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
@@ -68,14 +50,8 @@ class PaymentTerminal {
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
     
         {
-        "name": "configurationVersion",
-        "baseName": "configurationVersion",
-        "type": "PaymentTerminalConfigurationVersion"
-        },
-        
-        {
-        "name": "defaultCurrency",
-        "baseName": "defaultCurrency",
+        "name": "description",
+        "baseName": "description",
         "type": "string"
         },
         
@@ -98,18 +74,6 @@ class PaymentTerminal {
         },
         
         {
-        "name": "locationVersion",
-        "baseName": "locationVersion",
-        "type": "PaymentTerminalLocationVersion"
-        },
-        
-        {
-        "name": "name",
-        "baseName": "name",
-        "type": "string"
-        },
-        
-        {
         "name": "plannedPurgeDate",
         "baseName": "plannedPurgeDate",
         "type": "Date"
@@ -118,13 +82,13 @@ class PaymentTerminal {
         {
         "name": "state",
         "baseName": "state",
-        "type": "PaymentTerminalState"
+        "type": "BankAccountState"
         },
         
         {
         "name": "type",
         "baseName": "type",
-        "type": "PaymentTerminalType"
+        "type": "number"
         },
         
         {
@@ -135,8 +99,8 @@ class PaymentTerminal {
     ];
 
     static getAttributeTypeMap() {
-        return PaymentTerminal.attributeTypeMap;
+        return BankAccount.attributeTypeMap;
     }
 }
 
-export { PaymentTerminal }
+export { BankAccount }
