@@ -7,6 +7,7 @@ import { AbstractCustomerCommentActive } from "../models/AbstractCustomerComment
 import { AbstractHumanUserUpdate } from "../models/AbstractHumanUserUpdate";
 import { AbstractPaymentLinkUpdate } from "../models/AbstractPaymentLinkUpdate";
 import { AbstractRefundCommentActive } from "../models/AbstractRefundCommentActive";
+import { AbstractShopifySubscriptionProductUpdate } from "../models/AbstractShopifySubscriptionProductUpdate";
 import { AbstractSpaceUpdate } from "../models/AbstractSpaceUpdate";
 import { AbstractTokenUpdate } from "../models/AbstractTokenUpdate";
 import { AbstractTransactionCommentActive } from "../models/AbstractTransactionCommentActive";
@@ -126,6 +127,7 @@ import { PaymentTerminalLocation } from "../models/PaymentTerminalLocation";
 import { PaymentTerminalLocationState } from "../models/PaymentTerminalLocationState";
 import { PaymentTerminalLocationVersion } from "../models/PaymentTerminalLocationVersion";
 import { PaymentTerminalLocationVersionState } from "../models/PaymentTerminalLocationVersionState";
+import { PaymentTerminalReceiptType } from "../models/PaymentTerminalReceiptType";
 import { PaymentTerminalState } from "../models/PaymentTerminalState";
 import { PaymentTerminalType } from "../models/PaymentTerminalType";
 import { Permission } from "../models/Permission";
@@ -135,6 +137,7 @@ import { RefundCreate } from "../models/RefundCreate";
 import { RefundState } from "../models/RefundState";
 import { RefundType } from "../models/RefundType";
 import { RenderedDocument } from "../models/RenderedDocument";
+import { RenderedTerminalReceipt } from "../models/RenderedTerminalReceipt";
 import { ResourcePath } from "../models/ResourcePath";
 import { ResourceState } from "../models/ResourceState";
 import { RestAddressFormat } from "../models/RestAddressFormat";
@@ -144,6 +147,7 @@ import { RestCountryState } from "../models/RestCountryState";
 import { RestCurrency } from "../models/RestCurrency";
 import { RestLanguage } from "../models/RestLanguage";
 import { Role } from "../models/Role";
+import { RoleState } from "../models/RoleState";
 import { SalesChannel } from "../models/SalesChannel";
 import { Scope } from "../models/Scope";
 import { ServerError } from "../models/ServerError";
@@ -151,6 +155,36 @@ import { ShopifyAdditionalLineItemData } from "../models/ShopifyAdditionalLineIt
 import { ShopifyIntegration } from "../models/ShopifyIntegration";
 import { ShopifyIntegrationPaymentAppVersion } from "../models/ShopifyIntegrationPaymentAppVersion";
 import { ShopifyIntegrationSubscriptionAppVersion } from "../models/ShopifyIntegrationSubscriptionAppVersion";
+import { ShopifyRecurringOrderState } from "../models/ShopifyRecurringOrderState";
+import { ShopifyRecurringOrderUpdateRequest } from "../models/ShopifyRecurringOrderUpdateRequest";
+import { ShopifySubscriber } from "../models/ShopifySubscriber";
+import { ShopifySubscriberActive } from "../models/ShopifySubscriberActive";
+import { ShopifySubscriberCreation } from "../models/ShopifySubscriberCreation";
+import { ShopifySubscriberState } from "../models/ShopifySubscriberState";
+import { ShopifySubscription } from "../models/ShopifySubscription";
+import { ShopifySubscriptionAddressCreate } from "../models/ShopifySubscriptionAddressCreate";
+import { ShopifySubscriptionBillingIntervalUnit } from "../models/ShopifySubscriptionBillingIntervalUnit";
+import { ShopifySubscriptionCreationRequest } from "../models/ShopifySubscriptionCreationRequest";
+import { ShopifySubscriptionModelBillingConfiguration } from "../models/ShopifySubscriptionModelBillingConfiguration";
+import { ShopifySubscriptionModelItem } from "../models/ShopifySubscriptionModelItem";
+import { ShopifySubscriptionModelTaxLine } from "../models/ShopifySubscriptionModelTaxLine";
+import { ShopifySubscriptionProduct } from "../models/ShopifySubscriptionProduct";
+import { ShopifySubscriptionProductPricingOption } from "../models/ShopifySubscriptionProductPricingOption";
+import { ShopifySubscriptionProductState } from "../models/ShopifySubscriptionProductState";
+import { ShopifySubscriptionState } from "../models/ShopifySubscriptionState";
+import { ShopifySubscriptionSuspension } from "../models/ShopifySubscriptionSuspension";
+import { ShopifySubscriptionSuspensionCreate } from "../models/ShopifySubscriptionSuspensionCreate";
+import { ShopifySubscriptionSuspensionInitiator } from "../models/ShopifySubscriptionSuspensionInitiator";
+import { ShopifySubscriptionSuspensionState } from "../models/ShopifySubscriptionSuspensionState";
+import { ShopifySubscriptionSuspensionType } from "../models/ShopifySubscriptionSuspensionType";
+import { ShopifySubscriptionUpdateAddressesRequest } from "../models/ShopifySubscriptionUpdateAddressesRequest";
+import { ShopifySubscriptionUpdateRequest } from "../models/ShopifySubscriptionUpdateRequest";
+import { ShopifySubscriptionVersion } from "../models/ShopifySubscriptionVersion";
+import { ShopifySubscriptionVersionItem } from "../models/ShopifySubscriptionVersionItem";
+import { ShopifySubscriptionVersionItemPriceStrategy } from "../models/ShopifySubscriptionVersionItemPriceStrategy";
+import { ShopifySubscriptionVersionState } from "../models/ShopifySubscriptionVersionState";
+import { ShopifySubscriptionWeekday } from "../models/ShopifySubscriptionWeekday";
+import { ShopifyTaxLine } from "../models/ShopifyTaxLine";
 import { ShopifyTransactionState } from "../models/ShopifyTransactionState";
 import { Space } from "../models/Space";
 import { SpaceAddress } from "../models/SpaceAddress";
@@ -160,6 +194,8 @@ import { StaticValue } from "../models/StaticValue";
 import { Tax } from "../models/Tax";
 import { TaxCreate } from "../models/TaxCreate";
 import { TenantDatabase } from "../models/TenantDatabase";
+import { TerminalReceiptFetchRequest } from "../models/TerminalReceiptFetchRequest";
+import { TerminalReceiptFormat } from "../models/TerminalReceiptFormat";
 import { Token } from "../models/Token";
 import { TokenVersion } from "../models/TokenVersion";
 import { TokenVersionState } from "../models/TokenVersionState";
@@ -218,6 +254,10 @@ import { RefundBankTransaction } from "../models/RefundBankTransaction";
 import { RefundCommentActive } from "../models/RefundCommentActive";
 import { RefundCommentCreate } from "../models/RefundCommentCreate";
 import { RefundRecoveryBankTransaction } from "../models/RefundRecoveryBankTransaction";
+import { ShopifyRecurringOrder } from "../models/ShopifyRecurringOrder";
+import { ShopifySubscriptionAddress } from "../models/ShopifySubscriptionAddress";
+import { ShopifySubscriptionProductCreate } from "../models/ShopifySubscriptionProductCreate";
+import { ShopifySubscriptionProductUpdate } from "../models/ShopifySubscriptionProductUpdate";
 import { ShopifyTransaction } from "../models/ShopifyTransaction";
 import { SpaceCreate } from "../models/SpaceCreate";
 import { SpaceUpdate } from "../models/SpaceUpdate";
@@ -296,10 +336,24 @@ class ObjectSerializer {
         "RefundType": RefundType,
         "ResourceState": ResourceState,
         "RestAddressFormatField": RestAddressFormatField,
+        "RoleState": RoleState,
         "ShopifyAdditionalLineItemData": ShopifyAdditionalLineItemData,
         "ShopifyIntegrationPaymentAppVersion": ShopifyIntegrationPaymentAppVersion,
         "ShopifyIntegrationSubscriptionAppVersion": ShopifyIntegrationSubscriptionAppVersion,
+        "ShopifyRecurringOrderState": ShopifyRecurringOrderState,
+        "ShopifySubscriberState": ShopifySubscriberState,
+        "ShopifySubscriptionBillingIntervalUnit": ShopifySubscriptionBillingIntervalUnit,
+        "ShopifySubscriptionProductPricingOption": ShopifySubscriptionProductPricingOption,
+        "ShopifySubscriptionProductState": ShopifySubscriptionProductState,
+        "ShopifySubscriptionState": ShopifySubscriptionState,
+        "ShopifySubscriptionSuspensionInitiator": ShopifySubscriptionSuspensionInitiator,
+        "ShopifySubscriptionSuspensionState": ShopifySubscriptionSuspensionState,
+        "ShopifySubscriptionSuspensionType": ShopifySubscriptionSuspensionType,
+        "ShopifySubscriptionVersionItemPriceStrategy": ShopifySubscriptionVersionItemPriceStrategy,
+        "ShopifySubscriptionVersionState": ShopifySubscriptionVersionState,
+        "ShopifySubscriptionWeekday": ShopifySubscriptionWeekday,
         "ShopifyTransactionState": ShopifyTransactionState,
+        "TerminalReceiptFormat": TerminalReceiptFormat,
         "TokenVersionState": TokenVersionState,
         "TokenizationMode": TokenizationMode,
         "TransactionCompletionBehavior": TransactionCompletionBehavior,
@@ -324,6 +378,7 @@ class ObjectSerializer {
                 "AbstractHumanUserUpdate": AbstractHumanUserUpdate,
                 "AbstractPaymentLinkUpdate": AbstractPaymentLinkUpdate,
                 "AbstractRefundCommentActive": AbstractRefundCommentActive,
+                "AbstractShopifySubscriptionProductUpdate": AbstractShopifySubscriptionProductUpdate,
                 "AbstractSpaceUpdate": AbstractSpaceUpdate,
                 "AbstractTokenUpdate": AbstractTokenUpdate,
                 "AbstractTransactionCommentActive": AbstractTransactionCommentActive,
@@ -406,12 +461,14 @@ class ObjectSerializer {
                 "PaymentTerminalConfigurationVersion": PaymentTerminalConfigurationVersion,
                 "PaymentTerminalLocation": PaymentTerminalLocation,
                 "PaymentTerminalLocationVersion": PaymentTerminalLocationVersion,
+                "PaymentTerminalReceiptType": PaymentTerminalReceiptType,
                 "PaymentTerminalType": PaymentTerminalType,
                 "Permission": Permission,
                 "Refund": Refund,
                 "RefundComment": RefundComment,
                 "RefundCreate": RefundCreate,
                 "RenderedDocument": RenderedDocument,
+                "RenderedTerminalReceipt": RenderedTerminalReceipt,
                 "ResourcePath": ResourcePath,
                 "RestAddressFormat": RestAddressFormat,
                 "RestCountry": RestCountry,
@@ -423,6 +480,24 @@ class ObjectSerializer {
                 "Scope": Scope,
                 "ServerError": ServerError,
                 "ShopifyIntegration": ShopifyIntegration,
+                "ShopifyRecurringOrderUpdateRequest": ShopifyRecurringOrderUpdateRequest,
+                "ShopifySubscriber": ShopifySubscriber,
+                "ShopifySubscriberActive": ShopifySubscriberActive,
+                "ShopifySubscriberCreation": ShopifySubscriberCreation,
+                "ShopifySubscription": ShopifySubscription,
+                "ShopifySubscriptionAddressCreate": ShopifySubscriptionAddressCreate,
+                "ShopifySubscriptionCreationRequest": ShopifySubscriptionCreationRequest,
+                "ShopifySubscriptionModelBillingConfiguration": ShopifySubscriptionModelBillingConfiguration,
+                "ShopifySubscriptionModelItem": ShopifySubscriptionModelItem,
+                "ShopifySubscriptionModelTaxLine": ShopifySubscriptionModelTaxLine,
+                "ShopifySubscriptionProduct": ShopifySubscriptionProduct,
+                "ShopifySubscriptionSuspension": ShopifySubscriptionSuspension,
+                "ShopifySubscriptionSuspensionCreate": ShopifySubscriptionSuspensionCreate,
+                "ShopifySubscriptionUpdateAddressesRequest": ShopifySubscriptionUpdateAddressesRequest,
+                "ShopifySubscriptionUpdateRequest": ShopifySubscriptionUpdateRequest,
+                "ShopifySubscriptionVersion": ShopifySubscriptionVersion,
+                "ShopifySubscriptionVersionItem": ShopifySubscriptionVersionItem,
+                "ShopifyTaxLine": ShopifyTaxLine,
                 "Space": Space,
                 "SpaceAddress": SpaceAddress,
                 "SpaceAddressCreate": SpaceAddressCreate,
@@ -431,6 +506,7 @@ class ObjectSerializer {
                 "Tax": Tax,
                 "TaxCreate": TaxCreate,
                 "TenantDatabase": TenantDatabase,
+                "TerminalReceiptFetchRequest": TerminalReceiptFetchRequest,
                 "Token": Token,
                 "TokenVersion": TokenVersion,
                 "TokenVersionType": TokenVersionType,
@@ -476,6 +552,10 @@ class ObjectSerializer {
                 "RefundCommentActive": RefundCommentActive,
                 "RefundCommentCreate": RefundCommentCreate,
                 "RefundRecoveryBankTransaction": RefundRecoveryBankTransaction,
+                "ShopifyRecurringOrder": ShopifyRecurringOrder,
+                "ShopifySubscriptionAddress": ShopifySubscriptionAddress,
+                "ShopifySubscriptionProductCreate": ShopifySubscriptionProductCreate,
+                "ShopifySubscriptionProductUpdate": ShopifySubscriptionProductUpdate,
                 "ShopifyTransaction": ShopifyTransaction,
                 "SpaceCreate": SpaceCreate,
                 "SpaceUpdate": SpaceUpdate,

@@ -1,7 +1,7 @@
 {
     "name": "postfinancecheckout",
     "title": "PostFinance Checkout",
-    "version": "3.0.0",
+    "version": "3.0.4",
     "description": "TypeScript/JavaScript client for PostFinance Checkout",
     "homepage": "http://github.com/pfpayments/typescript-sdk",
     "repository": {

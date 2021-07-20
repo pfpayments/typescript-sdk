@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/pfpayments/typescript-sdk.svg?branch=master)](https://travis-ci.org/pfpayments/typescript-sdk)
-
 # PostFinance Checkout TypeScript Library
 
 The PostFinance Checkout TypeScript library wraps around the PostFinance Checkout API. This library facilitates your interaction with various services such as transactions, accounts, and subscriptions.

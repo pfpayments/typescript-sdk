@@ -1,21 +1,18 @@
 'use strict';
-import { PaymentTerminalConfigurationVersion } from "./PaymentTerminalConfigurationVersion";
-import { PaymentTerminalLocationVersion } from "./PaymentTerminalLocationVersion";
-import { PaymentTerminalState } from "./PaymentTerminalState";
-import { PaymentTerminalType } from "./PaymentTerminalType";
+import { ShopifySubscriberState } from "./ShopifySubscriberState";
 
 
-class PaymentTerminal {
+class ShopifySubscriber {
 
         /**
         * 
         */
-    'configurationVersion'?: PaymentTerminalConfigurationVersion;
+    'createdOn'?: Date;
 
         /**
         * 
         */
-    'defaultCurrency'?: string;
+    'emailAddress'?: string;
 
         /**
         * A client generated nonce which identifies the entity to be created. Subsequent creation requests with the same external ID will not create new entities but return the initially created entity instead.
@@ -28,11 +25,6 @@ class PaymentTerminal {
     'id'?: number;
 
         /**
-        * The identifier uniquely identifies the terminal. Normally it is visible on the device or in the display of the device.
-        */
-    'identifier'?: string;
-
-        /**
         * The linked space id holds the ID of the space to which the entity belongs to.
         */
     'linkedSpaceId'?: number;
@@ -40,12 +32,7 @@ class PaymentTerminal {
         /**
         * 
         */
-    'locationVersion'?: PaymentTerminalLocationVersion;
-
-        /**
-        * The terminal name is used internally to identify the terminal in administrative interfaces. For example it is used within search fields and hence it should be distinct and descriptive.
-        */
-    'name'?: string;
+    'phoneNumber'?: string;
 
         /**
         * The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
@@ -55,12 +42,12 @@ class PaymentTerminal {
         /**
         * 
         */
-    'state'?: PaymentTerminalState;
+    'shop'?: number;
 
         /**
         * 
         */
-    'type'?: PaymentTerminalType;
+    'state'?: ShopifySubscriberState;
 
         /**
         * The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
@@ -73,14 +60,14 @@ class PaymentTerminal {
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
     
         {
-        "name": "configurationVersion",
-        "baseName": "configurationVersion",
-        "type": "PaymentTerminalConfigurationVersion"
+        "name": "createdOn",
+        "baseName": "createdOn",
+        "type": "Date"
         },
         
         {
-        "name": "defaultCurrency",
-        "baseName": "defaultCurrency",
+        "name": "emailAddress",
+        "baseName": "emailAddress",
         "type": "string"
         },
         
@@ -97,26 +84,14 @@ class PaymentTerminal {
         },
         
         {
-        "name": "identifier",
-        "baseName": "identifier",
-        "type": "string"
-        },
-        
-        {
         "name": "linkedSpaceId",
         "baseName": "linkedSpaceId",
         "type": "number"
         },
         
         {
-        "name": "locationVersion",
-        "baseName": "locationVersion",
-        "type": "PaymentTerminalLocationVersion"
-        },
-        
-        {
-        "name": "name",
-        "baseName": "name",
+        "name": "phoneNumber",
+        "baseName": "phoneNumber",
         "type": "string"
         },
         
@@ -127,15 +102,15 @@ class PaymentTerminal {
         },
         
         {
-        "name": "state",
-        "baseName": "state",
-        "type": "PaymentTerminalState"
+        "name": "shop",
+        "baseName": "shop",
+        "type": "number"
         },
         
         {
-        "name": "type",
-        "baseName": "type",
-        "type": "PaymentTerminalType"
+        "name": "state",
+        "baseName": "state",
+        "type": "ShopifySubscriberState"
         },
         
         {
@@ -146,8 +121,8 @@ class PaymentTerminal {
     ];
 
     static getAttributeTypeMap() {
-        return PaymentTerminal.attributeTypeMap;
+        return ShopifySubscriber.attributeTypeMap;
     }
 }
 
-export { PaymentTerminal }
+export { ShopifySubscriber }
