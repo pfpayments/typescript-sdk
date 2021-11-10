@@ -139,6 +139,100 @@ class ChargeFlowService {
         });
     }
     /**
+    * This operation cancels the charge flow that is linked with the transaction indicated by the given ID.
+    * @summary Cancel Charge Flow
+    * @param spaceId 
+    * @param id The ID of the transaction for which the charge flow should be canceled.
+    * @param {*} [options] Override http request options.
+    */
+    public cancelChargeFlow (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Transaction;  }> {
+        const localVarPath = this.basePath + '/charge-flow/cancel-charge-flow';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling cancelChargeFlow.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling cancelChargeFlow.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Transaction;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    return reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Transaction");
+                            return resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            return reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    return reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
     * Counts the number of items in the database as restricted by the given filter.
     * @summary Count
     * @param spaceId 
@@ -191,6 +285,100 @@ class ChargeFlowService {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
                             body = ObjectSerializer.deserialize(body, "number");
+                            return resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            return reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    return reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * This operation allows to fetch the payment page URL that is been applied on the charge flow linked with the provided transaction. The operation might return an empty result when no payment page is needed or can be invoked.
+    * @summary Fetch Charge Flow Payment Page URL
+    * @param spaceId 
+    * @param id The transaction id of the transaction for which the URL of the charge flow should be fetched.
+    * @param {*} [options] Override http request options.
+    */
+    public fetchChargeFlowPaymentPageUrl (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: string;  }> {
+        const localVarPath = this.basePath + '/charge-flow/fetch-charge-flow-payment-page-url';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'spaceId' is not null or undefined
+            if (spaceId === null || spaceId === undefined) {
+                throw new Error('Required parameter spaceId was null or undefined when calling fetchChargeFlowPaymentPageUrl.');
+            }
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling fetchChargeFlowPaymentPageUrl.');
+            }
+
+        if (spaceId !== undefined) {
+            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: string;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    return reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "string");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;

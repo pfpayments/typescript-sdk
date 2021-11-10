@@ -215,6 +215,8 @@ import { TransactionInvoiceComment } from "../models/TransactionInvoiceComment";
 import { TransactionInvoiceReplacement } from "../models/TransactionInvoiceReplacement";
 import { TransactionInvoiceState } from "../models/TransactionInvoiceState";
 import { TransactionLineItemUpdateRequest } from "../models/TransactionLineItemUpdateRequest";
+import { TransactionLineItemVersionCreate } from "../models/TransactionLineItemVersionCreate";
+import { TransactionLineItemVersionState } from "../models/TransactionLineItemVersionState";
 import { TransactionState } from "../models/TransactionState";
 import { TransactionUserInterfaceType } from "../models/TransactionUserInterfaceType";
 import { TransactionVoidMode } from "../models/TransactionVoidMode";
@@ -362,6 +364,7 @@ class ObjectSerializer {
         "TransactionEnvironmentSelectionStrategy": TransactionEnvironmentSelectionStrategy,
         "TransactionGroupState": TransactionGroupState,
         "TransactionInvoiceState": TransactionInvoiceState,
+        "TransactionLineItemVersionState": TransactionLineItemVersionState,
         "TransactionState": TransactionState,
         "TransactionUserInterfaceType": TransactionUserInterfaceType,
         "TransactionVoidMode": TransactionVoidMode,
@@ -518,6 +521,7 @@ class ObjectSerializer {
                 "TransactionInvoiceComment": TransactionInvoiceComment,
                 "TransactionInvoiceReplacement": TransactionInvoiceReplacement,
                 "TransactionLineItemUpdateRequest": TransactionLineItemUpdateRequest,
+                "TransactionLineItemVersionCreate": TransactionLineItemVersionCreate,
                 "TwoFactorAuthenticationType": TwoFactorAuthenticationType,
                 "User": User,
                 "UserAccountRole": UserAccountRole,

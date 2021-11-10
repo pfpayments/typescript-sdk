@@ -214,6 +214,8 @@ import { TransactionInvoiceComment as TransactionInvoiceCommentModelImport } fro
 import { TransactionInvoiceReplacement as TransactionInvoiceReplacementModelImport } from "./src/models/TransactionInvoiceReplacement";
 import { TransactionInvoiceState as TransactionInvoiceStateModelImport } from "./src/models/TransactionInvoiceState";
 import { TransactionLineItemUpdateRequest as TransactionLineItemUpdateRequestModelImport } from "./src/models/TransactionLineItemUpdateRequest";
+import { TransactionLineItemVersionCreate as TransactionLineItemVersionCreateModelImport } from "./src/models/TransactionLineItemVersionCreate";
+import { TransactionLineItemVersionState as TransactionLineItemVersionStateModelImport } from "./src/models/TransactionLineItemVersionState";
 import { TransactionState as TransactionStateModelImport } from "./src/models/TransactionState";
 import { TransactionUserInterfaceType as TransactionUserInterfaceTypeModelImport } from "./src/models/TransactionUserInterfaceType";
 import { TransactionVoidMode as TransactionVoidModeModelImport } from "./src/models/TransactionVoidMode";
@@ -338,6 +340,7 @@ import { TransactionIframeService as TransactionIframeServiceApiImport } from ".
 import { TransactionInvoiceCommentService as TransactionInvoiceCommentServiceApiImport } from "./src/api/TransactionInvoiceCommentService";
 import { TransactionInvoiceService as TransactionInvoiceServiceApiImport } from "./src/api/TransactionInvoiceService";
 import { TransactionLightboxService as TransactionLightboxServiceApiImport } from "./src/api/TransactionLightboxService";
+import { TransactionLineItemVersionService as TransactionLineItemVersionServiceApiImport } from "./src/api/TransactionLineItemVersionService";
 import { TransactionMobileSdkService as TransactionMobileSdkServiceApiImport } from "./src/api/TransactionMobileSdkService";
 import { TransactionPaymentPageService as TransactionPaymentPageServiceApiImport } from "./src/api/TransactionPaymentPageService";
 import { TransactionService as TransactionServiceApiImport } from "./src/api/TransactionService";
@@ -783,6 +786,10 @@ export namespace PostFinanceCheckout {
         export const TransactionInvoiceState = TransactionInvoiceStateModelImport;
         export type TransactionLineItemUpdateRequest = TransactionLineItemUpdateRequestModelImport;
         export const TransactionLineItemUpdateRequest = TransactionLineItemUpdateRequestModelImport;
+        export type TransactionLineItemVersionCreate = TransactionLineItemVersionCreateModelImport;
+        export const TransactionLineItemVersionCreate = TransactionLineItemVersionCreateModelImport;
+        export type TransactionLineItemVersionState = TransactionLineItemVersionStateModelImport;
+        export const TransactionLineItemVersionState = TransactionLineItemVersionStateModelImport;
         export type TransactionState = TransactionStateModelImport;
         export const TransactionState = TransactionStateModelImport;
         export type TransactionUserInterfaceType = TransactionUserInterfaceTypeModelImport;
@@ -1032,6 +1039,8 @@ export namespace PostFinanceCheckout {
         export const TransactionInvoiceService = TransactionInvoiceServiceApiImport;
         export type TransactionLightboxService = TransactionLightboxServiceApiImport;
         export const TransactionLightboxService = TransactionLightboxServiceApiImport;
+        export type TransactionLineItemVersionService = TransactionLineItemVersionServiceApiImport;
+        export const TransactionLineItemVersionService = TransactionLineItemVersionServiceApiImport;
         export type TransactionMobileSdkService = TransactionMobileSdkServiceApiImport;
         export const TransactionMobileSdkService = TransactionMobileSdkServiceApiImport;
         export type TransactionPaymentPageService = TransactionPaymentPageServiceApiImport;
