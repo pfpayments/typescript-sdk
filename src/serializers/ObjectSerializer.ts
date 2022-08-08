@@ -77,6 +77,12 @@ import { FeatureCategory } from "../models/FeatureCategory";
 import { Gender } from "../models/Gender";
 import { HumanUser } from "../models/HumanUser";
 import { InternalTransferBankTransaction } from "../models/InternalTransferBankTransaction";
+import { InvoiceReconciliationRecordInvoiceLink } from "../models/InvoiceReconciliationRecordInvoiceLink";
+import { InvoiceReconciliationRecordRejectionStatus } from "../models/InvoiceReconciliationRecordRejectionStatus";
+import { InvoiceReconciliationRecordState } from "../models/InvoiceReconciliationRecordState";
+import { InvoiceReconciliationRecordType } from "../models/InvoiceReconciliationRecordType";
+import { InvoiceReimbursement } from "../models/InvoiceReimbursement";
+import { InvoiceReimbursementState } from "../models/InvoiceReimbursementState";
 import { Label } from "../models/Label";
 import { LabelDescriptor } from "../models/LabelDescriptor";
 import { LabelDescriptorCategory } from "../models/LabelDescriptorCategory";
@@ -107,6 +113,8 @@ import { PaymentContractState } from "../models/PaymentContractState";
 import { PaymentContractType } from "../models/PaymentContractType";
 import { PaymentInformationHash } from "../models/PaymentInformationHash";
 import { PaymentInformationHashType } from "../models/PaymentInformationHashType";
+import { PaymentInitiationAdviceFile } from "../models/PaymentInitiationAdviceFile";
+import { PaymentInitiationAdviceFileState } from "../models/PaymentInitiationAdviceFileState";
 import { PaymentLink } from "../models/PaymentLink";
 import { PaymentLinkAddressHandlingMode } from "../models/PaymentLinkAddressHandlingMode";
 import { PaymentLinkProtectionMode } from "../models/PaymentLinkProtectionMode";
@@ -123,12 +131,16 @@ import { PaymentTerminalConfiguration } from "../models/PaymentTerminalConfigura
 import { PaymentTerminalConfigurationState } from "../models/PaymentTerminalConfigurationState";
 import { PaymentTerminalConfigurationVersion } from "../models/PaymentTerminalConfigurationVersion";
 import { PaymentTerminalConfigurationVersionState } from "../models/PaymentTerminalConfigurationVersionState";
+import { PaymentTerminalDccTransactionSum } from "../models/PaymentTerminalDccTransactionSum";
 import { PaymentTerminalLocation } from "../models/PaymentTerminalLocation";
 import { PaymentTerminalLocationState } from "../models/PaymentTerminalLocationState";
 import { PaymentTerminalLocationVersion } from "../models/PaymentTerminalLocationVersion";
 import { PaymentTerminalLocationVersionState } from "../models/PaymentTerminalLocationVersionState";
 import { PaymentTerminalReceiptType } from "../models/PaymentTerminalReceiptType";
 import { PaymentTerminalState } from "../models/PaymentTerminalState";
+import { PaymentTerminalTransactionSum } from "../models/PaymentTerminalTransactionSum";
+import { PaymentTerminalTransactionSummary } from "../models/PaymentTerminalTransactionSummary";
+import { PaymentTerminalTransactionSummaryFetchRequest } from "../models/PaymentTerminalTransactionSummaryFetchRequest";
 import { PaymentTerminalType } from "../models/PaymentTerminalType";
 import { Permission } from "../models/Permission";
 import { Refund } from "../models/Refund";
@@ -138,6 +150,7 @@ import { RefundState } from "../models/RefundState";
 import { RefundType } from "../models/RefundType";
 import { RenderedDocument } from "../models/RenderedDocument";
 import { RenderedTerminalReceipt } from "../models/RenderedTerminalReceipt";
+import { RenderedTerminalTransactionSummary } from "../models/RenderedTerminalTransactionSummary";
 import { ResourcePath } from "../models/ResourcePath";
 import { ResourceState } from "../models/ResourceState";
 import { RestAddressFormat } from "../models/RestAddressFormat";
@@ -214,7 +227,6 @@ import { TransactionGroupState } from "../models/TransactionGroupState";
 import { TransactionInvoiceComment } from "../models/TransactionInvoiceComment";
 import { TransactionInvoiceReplacement } from "../models/TransactionInvoiceReplacement";
 import { TransactionInvoiceState } from "../models/TransactionInvoiceState";
-import { TransactionLineItemUpdateRequest } from "../models/TransactionLineItemUpdateRequest";
 import { TransactionLineItemVersionCreate } from "../models/TransactionLineItemVersionCreate";
 import { TransactionLineItemVersionState } from "../models/TransactionLineItemVersionState";
 import { TransactionState } from "../models/TransactionState";
@@ -250,6 +262,8 @@ import { CustomerCreate } from "../models/CustomerCreate";
 import { DeliveryIndication } from "../models/DeliveryIndication";
 import { HumanUserCreate } from "../models/HumanUserCreate";
 import { HumanUserUpdate } from "../models/HumanUserUpdate";
+import { InvoiceReconciliationRecord } from "../models/InvoiceReconciliationRecord";
+import { InvoiceReimbursementWithRefundReference } from "../models/InvoiceReimbursementWithRefundReference";
 import { PaymentLinkActive } from "../models/PaymentLinkActive";
 import { PaymentLinkCreate } from "../models/PaymentLinkCreate";
 import { RefundBankTransaction } from "../models/RefundBankTransaction";
@@ -320,12 +334,16 @@ class ObjectSerializer {
         "Environment": Environment,
         "FailureCategory": FailureCategory,
         "Gender": Gender,
+        "InvoiceReconciliationRecordRejectionStatus": InvoiceReconciliationRecordRejectionStatus,
+        "InvoiceReconciliationRecordState": InvoiceReconciliationRecordState,
+        "InvoiceReimbursementState": InvoiceReimbursementState,
         "LabelDescriptorCategory": LabelDescriptorCategory,
         "LineItemType": LineItemType,
         "ManualTaskActionStyle": ManualTaskActionStyle,
         "ManualTaskState": ManualTaskState,
         "OneClickPaymentMode": OneClickPaymentMode,
         "PaymentContractState": PaymentContractState,
+        "PaymentInitiationAdviceFileState": PaymentInitiationAdviceFileState,
         "PaymentLinkAddressHandlingMode": PaymentLinkAddressHandlingMode,
         "PaymentLinkProtectionMode": PaymentLinkProtectionMode,
         "PaymentPrimaryRiskTaker": PaymentPrimaryRiskTaker,
@@ -427,6 +445,9 @@ class ObjectSerializer {
                 "FeatureCategory": FeatureCategory,
                 "HumanUser": HumanUser,
                 "InternalTransferBankTransaction": InternalTransferBankTransaction,
+                "InvoiceReconciliationRecordInvoiceLink": InvoiceReconciliationRecordInvoiceLink,
+                "InvoiceReconciliationRecordType": InvoiceReconciliationRecordType,
+                "InvoiceReimbursement": InvoiceReimbursement,
                 "Label": Label,
                 "LabelDescriptor": LabelDescriptor,
                 "LabelDescriptorGroup": LabelDescriptorGroup,
@@ -451,6 +472,7 @@ class ObjectSerializer {
                 "PaymentContractType": PaymentContractType,
                 "PaymentInformationHash": PaymentInformationHash,
                 "PaymentInformationHashType": PaymentInformationHashType,
+                "PaymentInitiationAdviceFile": PaymentInitiationAdviceFile,
                 "PaymentLink": PaymentLink,
                 "PaymentLinkUpdate": PaymentLinkUpdate,
                 "PaymentMethod": PaymentMethod,
@@ -462,9 +484,13 @@ class ObjectSerializer {
                 "PaymentTerminalAddress": PaymentTerminalAddress,
                 "PaymentTerminalConfiguration": PaymentTerminalConfiguration,
                 "PaymentTerminalConfigurationVersion": PaymentTerminalConfigurationVersion,
+                "PaymentTerminalDccTransactionSum": PaymentTerminalDccTransactionSum,
                 "PaymentTerminalLocation": PaymentTerminalLocation,
                 "PaymentTerminalLocationVersion": PaymentTerminalLocationVersion,
                 "PaymentTerminalReceiptType": PaymentTerminalReceiptType,
+                "PaymentTerminalTransactionSum": PaymentTerminalTransactionSum,
+                "PaymentTerminalTransactionSummary": PaymentTerminalTransactionSummary,
+                "PaymentTerminalTransactionSummaryFetchRequest": PaymentTerminalTransactionSummaryFetchRequest,
                 "PaymentTerminalType": PaymentTerminalType,
                 "Permission": Permission,
                 "Refund": Refund,
@@ -472,6 +498,7 @@ class ObjectSerializer {
                 "RefundCreate": RefundCreate,
                 "RenderedDocument": RenderedDocument,
                 "RenderedTerminalReceipt": RenderedTerminalReceipt,
+                "RenderedTerminalTransactionSummary": RenderedTerminalTransactionSummary,
                 "ResourcePath": ResourcePath,
                 "RestAddressFormat": RestAddressFormat,
                 "RestCountry": RestCountry,
@@ -520,7 +547,6 @@ class ObjectSerializer {
                 "TransactionGroup": TransactionGroup,
                 "TransactionInvoiceComment": TransactionInvoiceComment,
                 "TransactionInvoiceReplacement": TransactionInvoiceReplacement,
-                "TransactionLineItemUpdateRequest": TransactionLineItemUpdateRequest,
                 "TransactionLineItemVersionCreate": TransactionLineItemVersionCreate,
                 "TwoFactorAuthenticationType": TwoFactorAuthenticationType,
                 "User": User,
@@ -550,6 +576,8 @@ class ObjectSerializer {
                 "DeliveryIndication": DeliveryIndication,
                 "HumanUserCreate": HumanUserCreate,
                 "HumanUserUpdate": HumanUserUpdate,
+                "InvoiceReconciliationRecord": InvoiceReconciliationRecord,
+                "InvoiceReimbursementWithRefundReference": InvoiceReimbursementWithRefundReference,
                 "PaymentLinkActive": PaymentLinkActive,
                 "PaymentLinkCreate": PaymentLinkCreate,
                 "RefundBankTransaction": RefundBankTransaction,
