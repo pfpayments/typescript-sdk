@@ -20,6 +20,12 @@ import { AccountState } from "../models/AccountState";
 import { AccountType } from "../models/AccountType";
 import { Address } from "../models/Address";
 import { AddressCreate } from "../models/AddressCreate";
+import { AnalyticsQuery } from "../models/AnalyticsQuery";
+import { AnalyticsQueryExecution } from "../models/AnalyticsQueryExecution";
+import { AnalyticsQueryExecutionState } from "../models/AnalyticsQueryExecutionState";
+import { AnalyticsQueryResultBatch } from "../models/AnalyticsQueryResultBatch";
+import { AnalyticsSchemaColumn } from "../models/AnalyticsSchemaColumn";
+import { AnalyticsSchemaTable } from "../models/AnalyticsSchemaTable";
 import { BankAccount } from "../models/BankAccount";
 import { BankAccountEnvironment } from "../models/BankAccountEnvironment";
 import { BankAccountState } from "../models/BankAccountState";
@@ -312,6 +318,7 @@ class ObjectSerializer {
     static enumsMap: {[index: string]: any} = {
         "AccountState": AccountState,
         "AccountType": AccountType,
+        "AnalyticsQueryExecutionState": AnalyticsQueryExecutionState,
         "BankAccountEnvironment": BankAccountEnvironment,
         "BankAccountState": BankAccountState,
         "BankTransactionFlowDirection": BankTransactionFlowDirection,
@@ -410,6 +417,11 @@ class ObjectSerializer {
                 "Account": Account,
                 "Address": Address,
                 "AddressCreate": AddressCreate,
+                "AnalyticsQuery": AnalyticsQuery,
+                "AnalyticsQueryExecution": AnalyticsQueryExecution,
+                "AnalyticsQueryResultBatch": AnalyticsQueryResultBatch,
+                "AnalyticsSchemaColumn": AnalyticsSchemaColumn,
+                "AnalyticsSchemaTable": AnalyticsSchemaTable,
                 "BankAccount": BankAccount,
                 "BankAccountType": BankAccountType,
                 "BankTransaction": BankTransaction,

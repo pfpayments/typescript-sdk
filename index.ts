@@ -19,6 +19,12 @@ import { AccountState as AccountStateModelImport } from "./src/models/AccountSta
 import { AccountType as AccountTypeModelImport } from "./src/models/AccountType";
 import { Address as AddressModelImport } from "./src/models/Address";
 import { AddressCreate as AddressCreateModelImport } from "./src/models/AddressCreate";
+import { AnalyticsQuery as AnalyticsQueryModelImport } from "./src/models/AnalyticsQuery";
+import { AnalyticsQueryExecution as AnalyticsQueryExecutionModelImport } from "./src/models/AnalyticsQueryExecution";
+import { AnalyticsQueryExecutionState as AnalyticsQueryExecutionStateModelImport } from "./src/models/AnalyticsQueryExecutionState";
+import { AnalyticsQueryResultBatch as AnalyticsQueryResultBatchModelImport } from "./src/models/AnalyticsQueryResultBatch";
+import { AnalyticsSchemaColumn as AnalyticsSchemaColumnModelImport } from "./src/models/AnalyticsSchemaColumn";
+import { AnalyticsSchemaTable as AnalyticsSchemaTableModelImport } from "./src/models/AnalyticsSchemaTable";
 import { BankAccount as BankAccountModelImport } from "./src/models/BankAccount";
 import { BankAccountEnvironment as BankAccountEnvironmentModelImport } from "./src/models/BankAccountEnvironment";
 import { BankAccountState as BankAccountStateModelImport } from "./src/models/BankAccountState";
@@ -295,6 +301,7 @@ import { WebhookUrlUpdate as WebhookUrlUpdateModelImport } from "./src/models/We
 import { ApplicationUserCreateWithMacKey as ApplicationUserCreateWithMacKeyModelImport } from "./src/models/ApplicationUserCreateWithMacKey";
 
 import { AccountService as AccountServiceApiImport } from "./src/api/AccountService";
+import { AnalyticsQueryService as AnalyticsQueryServiceApiImport } from "./src/api/AnalyticsQueryService";
 import { ApplicationUserService as ApplicationUserServiceApiImport } from "./src/api/ApplicationUserService";
 import { BankAccountService as BankAccountServiceApiImport } from "./src/api/BankAccountService";
 import { BankTransactionService as BankTransactionServiceApiImport } from "./src/api/BankTransactionService";
@@ -414,6 +421,18 @@ export namespace PostFinanceCheckout {
         export const Address = AddressModelImport;
         export type AddressCreate = AddressCreateModelImport;
         export const AddressCreate = AddressCreateModelImport;
+        export type AnalyticsQuery = AnalyticsQueryModelImport;
+        export const AnalyticsQuery = AnalyticsQueryModelImport;
+        export type AnalyticsQueryExecution = AnalyticsQueryExecutionModelImport;
+        export const AnalyticsQueryExecution = AnalyticsQueryExecutionModelImport;
+        export type AnalyticsQueryExecutionState = AnalyticsQueryExecutionStateModelImport;
+        export const AnalyticsQueryExecutionState = AnalyticsQueryExecutionStateModelImport;
+        export type AnalyticsQueryResultBatch = AnalyticsQueryResultBatchModelImport;
+        export const AnalyticsQueryResultBatch = AnalyticsQueryResultBatchModelImport;
+        export type AnalyticsSchemaColumn = AnalyticsSchemaColumnModelImport;
+        export const AnalyticsSchemaColumn = AnalyticsSchemaColumnModelImport;
+        export type AnalyticsSchemaTable = AnalyticsSchemaTableModelImport;
+        export const AnalyticsSchemaTable = AnalyticsSchemaTableModelImport;
         export type BankAccount = BankAccountModelImport;
         export const BankAccount = BankAccountModelImport;
         export type BankAccountEnvironment = BankAccountEnvironmentModelImport;
@@ -967,6 +986,8 @@ export namespace PostFinanceCheckout {
     export namespace api {
         export type AccountService = AccountServiceApiImport;
         export const AccountService = AccountServiceApiImport;
+        export type AnalyticsQueryService = AnalyticsQueryServiceApiImport;
+        export const AnalyticsQueryService = AnalyticsQueryServiceApiImport;
         export type ApplicationUserService = ApplicationUserServiceApiImport;
         export const ApplicationUserService = ApplicationUserServiceApiImport;
         export type BankAccountService = BankAccountServiceApiImport;

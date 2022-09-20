@@ -8,13 +8,14 @@ import { Authentication } from '../auth/Authentication';
 import { VoidAuth } from '../auth/VoidAuth';
 import { ObjectSerializer } from '../serializers/ObjectSerializer';
 
+import { AnalyticsQuery } from  '../models/AnalyticsQuery';
+import { AnalyticsQueryExecution } from  '../models/AnalyticsQueryExecution';
+import { AnalyticsQueryResultBatch } from  '../models/AnalyticsQueryResultBatch';
+import { AnalyticsSchemaTable } from  '../models/AnalyticsSchemaTable';
 import { ClientError } from  '../models/ClientError';
-import { RefundComment } from  '../models/RefundComment';
-import { RefundCommentActive } from  '../models/RefundCommentActive';
-import { RefundCommentCreate } from  '../models/RefundCommentCreate';
 import { ServerError } from  '../models/ServerError';
 
-class RefundCommentService {
+class AnalyticsQueryService {
     protected _basePath = 'https://checkout.postfinance.ch:443/api';
     protected defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
@@ -53,31 +54,21 @@ class RefundCommentService {
     }
 
     /**
-    * Deletes the comment with the given id.
-    * @summary Delete
-    * @param spaceId 
-    * @param id 
+    * Cancels the specified query execution.
+    * @summary Cancel Execution
+    * @param id The ID of the query execution to cancel.
     * @param {*} [options] Override http request options.
     */
-    public _delete (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/refund-comment/delete';
+    public cancelExecution (id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+        const localVarPath = this.basePath + '/analytics-query/cancel-execution';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-            // verify required parameter 'spaceId' is not null or undefined
-            if (spaceId === null || spaceId === undefined) {
-                throw new Error('Required parameter spaceId was null or undefined when calling _delete.');
-            }
-
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling _delete.');
+                throw new Error('Required parameter id was null or undefined when calling cancelExecution.');
             }
-
-        if (spaceId !== undefined) {
-            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
-        }
 
         if (id !== undefined) {
             localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
@@ -156,234 +147,310 @@ class RefundCommentService {
         });
     }
     /**
-    * Returns all comments of the given refund.
-    * @summary Find by refund
-    * @param spaceId 
-    * @param refundId 
+    * Fetches one batch of the result of a query execution.
+    * @summary Fetch Result
+    * @param id The ID of the query execution for which to fetch the result.
+    * @param timeout The maximal time in seconds to wait for the result if it is not yet available. Use 0 (the default) to return immediately without waiting.
+    * @param maxRows The maximum number of rows to return per batch. (Between 1 and 999. The default is 999.)
+    * @param nextToken The next-token of the preceding batch to get the next result batch or null to get the first result batch.
     * @param {*} [options] Override http request options.
     */
-    public all (spaceId: number, refundId: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<RefundComment>;  }> {
-        const localVarPath = this.basePath + '/refund-comment/all';
+    public fetchResult (id: number, timeout?: number, maxRows?: number, nextToken?: string, options: any = {}) : Promise<{ response: http.IncomingMessage; body: AnalyticsQueryResultBatch;  }> {
+        const localVarPath = this.basePath + '/analytics-query/fetch-result';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
-
-            // verify required parameter 'spaceId' is not null or undefined
-            if (spaceId === null || spaceId === undefined) {
-                throw new Error('Required parameter spaceId was null or undefined when calling all.');
-            }
-
-            // verify required parameter 'refundId' is not null or undefined
-            if (refundId === null || refundId === undefined) {
-                throw new Error('Required parameter refundId was null or undefined when calling all.');
-            }
-
-        if (spaceId !== undefined) {
-            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
-        }
-
-        if (refundId !== undefined) {
-            localVarQueryParameters['refundId'] = ObjectSerializer.serialize(refundId, "number");
-        }
-
-        (<any>Object).assign(localVarHeaderParams, options.headers);
-
-        let defaultHeaderParams = {
-            "x-meta-sdk-version": "3.1.2",
-            "x-meta-sdk-language": "typescript",
-            "x-meta-sdk-provider": "PostFinance Checkout",
-            "x-meta-sdk-language-version": this.getVersion(),
-        };
-
-        (<any>Object).assign(localVarHeaderParams, defaultHeaderParams);
-
-        let localVarUseFormData = false;
-
-        let localVarRequestOptions: localVarRequest.Options = {
-            method: 'POST',
-            qs: localVarQueryParameters,
-            headers: localVarHeaderParams,
-            uri: localVarPath,
-            useQuerystring: this._useQuerystring,
-            json: true,
-        };
-
-        this.authentications.default.applyToRequest(localVarRequestOptions);
-
-        if (Object.keys(localVarFormParams).length) {
-            if (localVarUseFormData) {
-                (<any>localVarRequestOptions).formData = localVarFormParams;
-            } else {
-                localVarRequestOptions.form = localVarFormParams;
-            }
-        }
-        return new Promise<{ response: http.IncomingMessage; body: Array<RefundComment>;  }>((resolve, reject) => {
-            localVarRequest(localVarRequestOptions, (error, response, body) => {
-                if (error) {
-                    return reject(error);
-                } else {
-                    if (response.statusCode){
-                        if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "Array<RefundComment>");
-                            return resolve({ response: response, body: body });
-                        } else {
-                            let errorObject: ClientError | ServerError;
-                            if (response.statusCode >= 400 && response.statusCode <= 499) {
-                                errorObject = new ClientError();
-                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
-                                errorObject = new ServerError();
-                            } else {
-                                errorObject = new Object();
-                            }
-                            return reject({
-                                errorType: errorObject.constructor.name,
-                                date: (new Date()).toDateString(),
-                                statusCode: <string> <any> response.statusCode,
-                                statusMessage: response.statusMessage,
-                                body: body,
-                                response: response
-                            });
-                        }
-                    }
-                    return reject({
-                        errorType: "Unknown",
-                        date: (new Date()).toDateString(),
-                        statusCode: "Unknown",
-                        statusMessage: "Unknown",
-                        body: body,
-                        response: response
-                    });
-
-                }
-            });
-        });
-    }
-    /**
-    * Creates the comment with the given properties.
-    * @summary Create
-    * @param spaceId 
-    * @param entity 
-    * @param {*} [options] Override http request options.
-    */
-    public create (spaceId: number, entity: RefundCommentCreate, options: any = {}) : Promise<{ response: http.IncomingMessage; body: RefundComment;  }> {
-        const localVarPath = this.basePath + '/refund-comment/create';
-        let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        let localVarFormParams: any = {};
-
-            // verify required parameter 'spaceId' is not null or undefined
-            if (spaceId === null || spaceId === undefined) {
-                throw new Error('Required parameter spaceId was null or undefined when calling create.');
-            }
-
-            // verify required parameter 'entity' is not null or undefined
-            if (entity === null || entity === undefined) {
-                throw new Error('Required parameter entity was null or undefined when calling create.');
-            }
-
-        if (spaceId !== undefined) {
-            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
-        }
-
-        (<any>Object).assign(localVarHeaderParams, options.headers);
-
-        let defaultHeaderParams = {
-            "x-meta-sdk-version": "3.1.2",
-            "x-meta-sdk-language": "typescript",
-            "x-meta-sdk-provider": "PostFinance Checkout",
-            "x-meta-sdk-language-version": this.getVersion(),
-        };
-
-        (<any>Object).assign(localVarHeaderParams, defaultHeaderParams);
-
-        let localVarUseFormData = false;
-
-        let localVarRequestOptions: localVarRequest.Options = {
-            method: 'POST',
-            qs: localVarQueryParameters,
-            headers: localVarHeaderParams,
-            uri: localVarPath,
-            useQuerystring: this._useQuerystring,
-            json: true,
-            body: ObjectSerializer.serialize(entity, "RefundCommentCreate"),
-        };
-
-        this.authentications.default.applyToRequest(localVarRequestOptions);
-
-        if (Object.keys(localVarFormParams).length) {
-            if (localVarUseFormData) {
-                (<any>localVarRequestOptions).formData = localVarFormParams;
-            } else {
-                localVarRequestOptions.form = localVarFormParams;
-            }
-        }
-        return new Promise<{ response: http.IncomingMessage; body: RefundComment;  }>((resolve, reject) => {
-            localVarRequest(localVarRequestOptions, (error, response, body) => {
-                if (error) {
-                    return reject(error);
-                } else {
-                    if (response.statusCode){
-                        if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "RefundComment");
-                            return resolve({ response: response, body: body });
-                        } else {
-                            let errorObject: ClientError | ServerError;
-                            if (response.statusCode >= 400 && response.statusCode <= 499) {
-                                errorObject = new ClientError();
-                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
-                                errorObject = new ServerError();
-                            } else {
-                                errorObject = new Object();
-                            }
-                            return reject({
-                                errorType: errorObject.constructor.name,
-                                date: (new Date()).toDateString(),
-                                statusCode: <string> <any> response.statusCode,
-                                statusMessage: response.statusMessage,
-                                body: body,
-                                response: response
-                            });
-                        }
-                    }
-                    return reject({
-                        errorType: "Unknown",
-                        date: (new Date()).toDateString(),
-                        statusCode: "Unknown",
-                        statusMessage: "Unknown",
-                        body: body,
-                        response: response
-                    });
-
-                }
-            });
-        });
-    }
-    /**
-    * Pins the comment to the top.
-    * @summary Pin
-    * @param spaceId 
-    * @param id 
-    * @param {*} [options] Override http request options.
-    */
-    public pin (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/refund-comment/pin';
-        let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        let localVarFormParams: any = {};
-
-            // verify required parameter 'spaceId' is not null or undefined
-            if (spaceId === null || spaceId === undefined) {
-                throw new Error('Required parameter spaceId was null or undefined when calling pin.');
-            }
 
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling pin.');
+                throw new Error('Required parameter id was null or undefined when calling fetchResult.');
             }
 
-        if (spaceId !== undefined) {
-            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
         }
+
+        if (timeout !== undefined) {
+            localVarQueryParameters['timeout'] = ObjectSerializer.serialize(timeout, "number");
+        }
+
+        if (maxRows !== undefined) {
+            localVarQueryParameters['maxRows'] = ObjectSerializer.serialize(maxRows, "number");
+        }
+
+        if (nextToken !== undefined) {
+            localVarQueryParameters['nextToken'] = ObjectSerializer.serialize(nextToken, "string");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let defaultHeaderParams = {
+            "x-meta-sdk-version": "3.1.2",
+            "x-meta-sdk-language": "typescript",
+            "x-meta-sdk-provider": "PostFinance Checkout",
+            "x-meta-sdk-language-version": this.getVersion(),
+        };
+
+        (<any>Object).assign(localVarHeaderParams, defaultHeaderParams);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: AnalyticsQueryResultBatch;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    return reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "AnalyticsQueryResultBatch");
+                            return resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            return reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    return reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Generate a URL from which the results of a query execution can be downloaded in CSV format.
+    * @summary Generate Download URL
+    * @param id The ID of the query execution for which to generate the download URL.
+    * @param timeout The maximal time in seconds to wait for the result if it is not yet available. Use 0 (the default) to return immediately without waiting.
+    * @param {*} [options] Override http request options.
+    */
+    public generateDownloadUrl (id: number, timeout?: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: string;  }> {
+        const localVarPath = this.basePath + '/analytics-query/generate-download-url';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling generateDownloadUrl.');
+            }
+
+        if (id !== undefined) {
+            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
+        }
+
+        if (timeout !== undefined) {
+            localVarQueryParameters['timeout'] = ObjectSerializer.serialize(timeout, "number");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let defaultHeaderParams = {
+            "x-meta-sdk-version": "3.1.2",
+            "x-meta-sdk-language": "typescript",
+            "x-meta-sdk-provider": "PostFinance Checkout",
+            "x-meta-sdk-language-version": this.getVersion(),
+        };
+
+        (<any>Object).assign(localVarHeaderParams, defaultHeaderParams);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: string;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    return reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "string");
+                            return resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            return reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    return reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Get the schemas describing the available tables and their columns.
+    * @summary Get Schemas
+    * @param {*} [options] Override http request options.
+    */
+    public schema (options: any = {}) : Promise<{ response: http.IncomingMessage; body: Array<AnalyticsSchemaTable>;  }> {
+        const localVarPath = this.basePath + '/analytics-query/schema';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let defaultHeaderParams = {
+            "x-meta-sdk-version": "3.1.2",
+            "x-meta-sdk-language": "typescript",
+            "x-meta-sdk-provider": "PostFinance Checkout",
+            "x-meta-sdk-language-version": this.getVersion(),
+        };
+
+        (<any>Object).assign(localVarHeaderParams, defaultHeaderParams);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'GET',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        this.authentications.default.applyToRequest(localVarRequestOptions);
+
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
+            } else {
+                localVarRequestOptions.form = localVarFormParams;
+            }
+        }
+        return new Promise<{ response: http.IncomingMessage; body: Array<AnalyticsSchemaTable>;  }>((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
+                if (error) {
+                    return reject(error);
+                } else {
+                    if (response.statusCode){
+                        if (response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Array<AnalyticsSchemaTable>");
+                            return resolve({ response: response, body: body });
+                        } else {
+                            let errorObject: ClientError | ServerError;
+                            if (response.statusCode >= 400 && response.statusCode <= 499) {
+                                errorObject = new ClientError();
+                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
+                                errorObject = new ServerError();
+                            } else {
+                                errorObject = new Object();
+                            }
+                            return reject({
+                                errorType: errorObject.constructor.name,
+                                date: (new Date()).toDateString(),
+                                statusCode: <string> <any> response.statusCode,
+                                statusMessage: response.statusMessage,
+                                body: body,
+                                response: response
+                            });
+                        }
+                    }
+                    return reject({
+                        errorType: "Unknown",
+                        date: (new Date()).toDateString(),
+                        statusCode: "Unknown",
+                        statusMessage: "Unknown",
+                        body: body,
+                        response: response
+                    });
+
+                }
+            });
+        });
+    }
+    /**
+    * Returns the current status of a query execution.
+    * @summary Execution Status
+    * @param id The ID of the query execution for which to get the status.
+    * @param {*} [options] Override http request options.
+    */
+    public status (id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: AnalyticsQueryExecution;  }> {
+        const localVarPath = this.basePath + '/analytics-query/status';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
+
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new Error('Required parameter id was null or undefined when calling status.');
+            }
 
         if (id !== undefined) {
             localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
@@ -420,14 +487,14 @@ class RefundCommentService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: AnalyticsQueryExecution;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-
+                            body = ObjectSerializer.deserialize(body, "AnalyticsQueryExecution");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -462,237 +529,21 @@ class RefundCommentService {
         });
     }
     /**
-    * Reads the comment with the given 'id' and returns it.
-    * @summary Read
-    * @param spaceId 
-    * @param id 
+    * Submits a query for execution.
+    * @summary Submit Query
+    * @param query The query to submit.
     * @param {*} [options] Override http request options.
     */
-    public read (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body: RefundComment;  }> {
-        const localVarPath = this.basePath + '/refund-comment/read';
+    public submitQuery (query: AnalyticsQuery, options: any = {}) : Promise<{ response: http.IncomingMessage; body: AnalyticsQueryExecution;  }> {
+        const localVarPath = this.basePath + '/analytics-query/submit-query';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-            // verify required parameter 'spaceId' is not null or undefined
-            if (spaceId === null || spaceId === undefined) {
-                throw new Error('Required parameter spaceId was null or undefined when calling read.');
+            // verify required parameter 'query' is not null or undefined
+            if (query === null || query === undefined) {
+                throw new Error('Required parameter query was null or undefined when calling submitQuery.');
             }
-
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling read.');
-            }
-
-        if (spaceId !== undefined) {
-            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
-        }
-
-        if (id !== undefined) {
-            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
-        }
-
-        (<any>Object).assign(localVarHeaderParams, options.headers);
-
-        let defaultHeaderParams = {
-            "x-meta-sdk-version": "3.1.2",
-            "x-meta-sdk-language": "typescript",
-            "x-meta-sdk-provider": "PostFinance Checkout",
-            "x-meta-sdk-language-version": this.getVersion(),
-        };
-
-        (<any>Object).assign(localVarHeaderParams, defaultHeaderParams);
-
-        let localVarUseFormData = false;
-
-        let localVarRequestOptions: localVarRequest.Options = {
-            method: 'GET',
-            qs: localVarQueryParameters,
-            headers: localVarHeaderParams,
-            uri: localVarPath,
-            useQuerystring: this._useQuerystring,
-            json: true,
-        };
-
-        this.authentications.default.applyToRequest(localVarRequestOptions);
-
-        if (Object.keys(localVarFormParams).length) {
-            if (localVarUseFormData) {
-                (<any>localVarRequestOptions).formData = localVarFormParams;
-            } else {
-                localVarRequestOptions.form = localVarFormParams;
-            }
-        }
-        return new Promise<{ response: http.IncomingMessage; body: RefundComment;  }>((resolve, reject) => {
-            localVarRequest(localVarRequestOptions, (error, response, body) => {
-                if (error) {
-                    return reject(error);
-                } else {
-                    if (response.statusCode){
-                        if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "RefundComment");
-                            return resolve({ response: response, body: body });
-                        } else {
-                            let errorObject: ClientError | ServerError;
-                            if (response.statusCode >= 400 && response.statusCode <= 499) {
-                                errorObject = new ClientError();
-                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
-                                errorObject = new ServerError();
-                            } else {
-                                errorObject = new Object();
-                            }
-                            return reject({
-                                errorType: errorObject.constructor.name,
-                                date: (new Date()).toDateString(),
-                                statusCode: <string> <any> response.statusCode,
-                                statusMessage: response.statusMessage,
-                                body: body,
-                                response: response
-                            });
-                        }
-                    }
-                    return reject({
-                        errorType: "Unknown",
-                        date: (new Date()).toDateString(),
-                        statusCode: "Unknown",
-                        statusMessage: "Unknown",
-                        body: body,
-                        response: response
-                    });
-
-                }
-            });
-        });
-    }
-    /**
-    * Unpins the comment from the top.
-    * @summary Unpin
-    * @param spaceId 
-    * @param id 
-    * @param {*} [options] Override http request options.
-    */
-    public unpin (spaceId: number, id: number, options: any = {}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
-        const localVarPath = this.basePath + '/refund-comment/unpin';
-        let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        let localVarFormParams: any = {};
-
-            // verify required parameter 'spaceId' is not null or undefined
-            if (spaceId === null || spaceId === undefined) {
-                throw new Error('Required parameter spaceId was null or undefined when calling unpin.');
-            }
-
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new Error('Required parameter id was null or undefined when calling unpin.');
-            }
-
-        if (spaceId !== undefined) {
-            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
-        }
-
-        if (id !== undefined) {
-            localVarQueryParameters['id'] = ObjectSerializer.serialize(id, "number");
-        }
-
-        (<any>Object).assign(localVarHeaderParams, options.headers);
-
-        let defaultHeaderParams = {
-            "x-meta-sdk-version": "3.1.2",
-            "x-meta-sdk-language": "typescript",
-            "x-meta-sdk-provider": "PostFinance Checkout",
-            "x-meta-sdk-language-version": this.getVersion(),
-        };
-
-        (<any>Object).assign(localVarHeaderParams, defaultHeaderParams);
-
-        let localVarUseFormData = false;
-
-        let localVarRequestOptions: localVarRequest.Options = {
-            method: 'GET',
-            qs: localVarQueryParameters,
-            headers: localVarHeaderParams,
-            uri: localVarPath,
-            useQuerystring: this._useQuerystring,
-            json: true,
-        };
-
-        this.authentications.default.applyToRequest(localVarRequestOptions);
-
-        if (Object.keys(localVarFormParams).length) {
-            if (localVarUseFormData) {
-                (<any>localVarRequestOptions).formData = localVarFormParams;
-            } else {
-                localVarRequestOptions.form = localVarFormParams;
-            }
-        }
-        return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
-            localVarRequest(localVarRequestOptions, (error, response, body) => {
-                if (error) {
-                    return reject(error);
-                } else {
-                    if (response.statusCode){
-                        if (response.statusCode >= 200 && response.statusCode <= 299) {
-
-                            return resolve({ response: response, body: body });
-                        } else {
-                            let errorObject: ClientError | ServerError;
-                            if (response.statusCode >= 400 && response.statusCode <= 499) {
-                                errorObject = new ClientError();
-                            } else if (response.statusCode >= 500 && response.statusCode <= 599){
-                                errorObject = new ServerError();
-                            } else {
-                                errorObject = new Object();
-                            }
-                            return reject({
-                                errorType: errorObject.constructor.name,
-                                date: (new Date()).toDateString(),
-                                statusCode: <string> <any> response.statusCode,
-                                statusMessage: response.statusMessage,
-                                body: body,
-                                response: response
-                            });
-                        }
-                    }
-                    return reject({
-                        errorType: "Unknown",
-                        date: (new Date()).toDateString(),
-                        statusCode: "Unknown",
-                        statusMessage: "Unknown",
-                        body: body,
-                        response: response
-                    });
-
-                }
-            });
-        });
-    }
-    /**
-    * This updates the comment with the given properties. Only those properties which should be updated can be provided. The 'id' and 'version' are required to identify the comment.
-    * @summary Update
-    * @param spaceId 
-    * @param entity 
-    * @param {*} [options] Override http request options.
-    */
-    public update (spaceId: number, entity: RefundCommentActive, options: any = {}) : Promise<{ response: http.IncomingMessage; body: RefundComment;  }> {
-        const localVarPath = this.basePath + '/refund-comment/update';
-        let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        let localVarFormParams: any = {};
-
-            // verify required parameter 'spaceId' is not null or undefined
-            if (spaceId === null || spaceId === undefined) {
-                throw new Error('Required parameter spaceId was null or undefined when calling update.');
-            }
-
-            // verify required parameter 'entity' is not null or undefined
-            if (entity === null || entity === undefined) {
-                throw new Error('Required parameter entity was null or undefined when calling update.');
-            }
-
-        if (spaceId !== undefined) {
-            localVarQueryParameters['spaceId'] = ObjectSerializer.serialize(spaceId, "number");
-        }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
 
@@ -714,7 +565,7 @@ class RefundCommentService {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(entity, "RefundCommentActive"),
+            body: ObjectSerializer.serialize(query, "AnalyticsQuery"),
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -726,14 +577,14 @@ class RefundCommentService {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.IncomingMessage; body: RefundComment;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: AnalyticsQueryExecution;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     return reject(error);
                 } else {
                     if (response.statusCode){
                         if (response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "RefundComment");
+                            body = ObjectSerializer.deserialize(body, "AnalyticsQueryExecution");
                             return resolve({ response: response, body: body });
                         } else {
                             let errorObject: ClientError | ServerError;
@@ -769,4 +620,4 @@ class RefundCommentService {
     }
 }
 
-export { RefundCommentService }
+export { AnalyticsQueryService }
