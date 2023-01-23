@@ -243,6 +243,7 @@ import { User as UserModelImport } from "./src/models/User";
 import { UserAccountRole as UserAccountRoleModelImport } from "./src/models/UserAccountRole";
 import { UserSpaceRole as UserSpaceRoleModelImport } from "./src/models/UserSpaceRole";
 import { UserType as UserTypeModelImport } from "./src/models/UserType";
+import { WalletType as WalletTypeModelImport } from "./src/models/WalletType";
 import { WebhookIdentity as WebhookIdentityModelImport } from "./src/models/WebhookIdentity";
 import { WebhookListener as WebhookListenerModelImport } from "./src/models/WebhookListener";
 import { WebhookListenerEntity as WebhookListenerEntityModelImport } from "./src/models/WebhookListenerEntity";
@@ -869,6 +870,8 @@ export namespace PostFinanceCheckout {
         export const UserSpaceRole = UserSpaceRoleModelImport;
         export type UserType = UserTypeModelImport;
         export const UserType = UserTypeModelImport;
+        export type WalletType = WalletTypeModelImport;
+        export const WalletType = WalletTypeModelImport;
         export type WebhookIdentity = WebhookIdentityModelImport;
         export const WebhookIdentity = WebhookIdentityModelImport;
         export type WebhookListener = WebhookListenerModelImport;
