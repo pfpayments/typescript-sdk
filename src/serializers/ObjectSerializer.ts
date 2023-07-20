@@ -26,6 +26,7 @@ import { AnalyticsQueryExecutionState } from "../models/AnalyticsQueryExecutionS
 import { AnalyticsQueryResultBatch } from "../models/AnalyticsQueryResultBatch";
 import { AnalyticsSchemaColumn } from "../models/AnalyticsSchemaColumn";
 import { AnalyticsSchemaTable } from "../models/AnalyticsSchemaTable";
+import { AuthenticatedCardDataCreate } from "../models/AuthenticatedCardDataCreate";
 import { BankAccount } from "../models/BankAccount";
 import { BankAccountEnvironment } from "../models/BankAccountEnvironment";
 import { BankAccountState } from "../models/BankAccountState";
@@ -35,6 +36,13 @@ import { BankTransactionFlowDirection } from "../models/BankTransactionFlowDirec
 import { BankTransactionSource } from "../models/BankTransactionSource";
 import { BankTransactionState } from "../models/BankTransactionState";
 import { BankTransactionType } from "../models/BankTransactionType";
+import { CardAuthenticationResponse } from "../models/CardAuthenticationResponse";
+import { CardAuthenticationVersion } from "../models/CardAuthenticationVersion";
+import { CardCryptogram } from "../models/CardCryptogram";
+import { CardCryptogramCreate } from "../models/CardCryptogramCreate";
+import { CardCryptogramType } from "../models/CardCryptogramType";
+import { CardholderAuthentication } from "../models/CardholderAuthentication";
+import { CardholderAuthenticationCreate } from "../models/CardholderAuthenticationCreate";
 import { ChargeAttemptEnvironment } from "../models/ChargeAttemptEnvironment";
 import { ChargeAttemptState } from "../models/ChargeAttemptState";
 import { ChargeFlow } from "../models/ChargeFlow";
@@ -61,8 +69,6 @@ import { CustomerPostalAddress } from "../models/CustomerPostalAddress";
 import { CustomerPostalAddressCreate } from "../models/CustomerPostalAddressCreate";
 import { CustomersPresence } from "../models/CustomersPresence";
 import { DataCollectionType } from "../models/DataCollectionType";
-import { DatabaseTranslatedString } from "../models/DatabaseTranslatedString";
-import { DatabaseTranslatedStringItem } from "../models/DatabaseTranslatedStringItem";
 import { DeliveryIndicationDecisionReason } from "../models/DeliveryIndicationDecisionReason";
 import { DeliveryIndicationState } from "../models/DeliveryIndicationState";
 import { DocumentTemplate } from "../models/DocumentTemplate";
@@ -149,6 +155,7 @@ import { PaymentTerminalTransactionSummary } from "../models/PaymentTerminalTran
 import { PaymentTerminalTransactionSummaryFetchRequest } from "../models/PaymentTerminalTransactionSummaryFetchRequest";
 import { PaymentTerminalType } from "../models/PaymentTerminalType";
 import { Permission } from "../models/Permission";
+import { RecurringIndicator } from "../models/RecurringIndicator";
 import { Refund } from "../models/Refund";
 import { RefundComment } from "../models/RefundComment";
 import { RefundCreate } from "../models/RefundCreate";
@@ -220,6 +227,8 @@ import { TokenVersion } from "../models/TokenVersion";
 import { TokenVersionState } from "../models/TokenVersionState";
 import { TokenVersionType } from "../models/TokenVersionType";
 import { TokenizationMode } from "../models/TokenizationMode";
+import { TokenizedCardData } from "../models/TokenizedCardData";
+import { TokenizedCardDataCreate } from "../models/TokenizedCardDataCreate";
 import { Transaction } from "../models/Transaction";
 import { TransactionAwareEntity } from "../models/TransactionAwareEntity";
 import { TransactionComment } from "../models/TransactionComment";
@@ -254,6 +263,7 @@ import { AccountUpdate } from "../models/AccountUpdate";
 import { ApplicationUser } from "../models/ApplicationUser";
 import { ApplicationUserCreate } from "../models/ApplicationUserCreate";
 import { ApplicationUserUpdate } from "../models/ApplicationUserUpdate";
+import { AuthenticatedCardData } from "../models/AuthenticatedCardData";
 import { Charge } from "../models/Charge";
 import { ChargeAttempt } from "../models/ChargeAttempt";
 import { ChargeBankTransaction } from "../models/ChargeBankTransaction";
@@ -324,6 +334,9 @@ class ObjectSerializer {
         "BankAccountState": BankAccountState,
         "BankTransactionFlowDirection": BankTransactionFlowDirection,
         "BankTransactionState": BankTransactionState,
+        "CardAuthenticationResponse": CardAuthenticationResponse,
+        "CardAuthenticationVersion": CardAuthenticationVersion,
+        "CardCryptogramType": CardCryptogramType,
         "ChargeAttemptEnvironment": ChargeAttemptEnvironment,
         "ChargeAttemptState": ChargeAttemptState,
         "ChargeFlowLevelState": ChargeFlowLevelState,
@@ -360,6 +373,7 @@ class ObjectSerializer {
         "PaymentTerminalLocationState": PaymentTerminalLocationState,
         "PaymentTerminalLocationVersionState": PaymentTerminalLocationVersionState,
         "PaymentTerminalState": PaymentTerminalState,
+        "RecurringIndicator": RecurringIndicator,
         "RefundState": RefundState,
         "RefundType": RefundType,
         "ResourceState": ResourceState,
@@ -424,11 +438,16 @@ class ObjectSerializer {
                 "AnalyticsQueryResultBatch": AnalyticsQueryResultBatch,
                 "AnalyticsSchemaColumn": AnalyticsSchemaColumn,
                 "AnalyticsSchemaTable": AnalyticsSchemaTable,
+                "AuthenticatedCardDataCreate": AuthenticatedCardDataCreate,
                 "BankAccount": BankAccount,
                 "BankAccountType": BankAccountType,
                 "BankTransaction": BankTransaction,
                 "BankTransactionSource": BankTransactionSource,
                 "BankTransactionType": BankTransactionType,
+                "CardCryptogram": CardCryptogram,
+                "CardCryptogramCreate": CardCryptogramCreate,
+                "CardholderAuthentication": CardholderAuthentication,
+                "CardholderAuthenticationCreate": CardholderAuthenticationCreate,
                 "ChargeFlow": ChargeFlow,
                 "ChargeFlowLevelConfiguration": ChargeFlowLevelConfiguration,
                 "ChargeFlowLevelConfigurationType": ChargeFlowLevelConfigurationType,
@@ -443,8 +462,6 @@ class ObjectSerializer {
                 "CustomerComment": CustomerComment,
                 "CustomerPostalAddress": CustomerPostalAddress,
                 "CustomerPostalAddressCreate": CustomerPostalAddressCreate,
-                "DatabaseTranslatedString": DatabaseTranslatedString,
-                "DatabaseTranslatedStringItem": DatabaseTranslatedStringItem,
                 "DeliveryIndicationDecisionReason": DeliveryIndicationDecisionReason,
                 "DocumentTemplate": DocumentTemplate,
                 "DocumentTemplateType": DocumentTemplateType,
@@ -554,6 +571,8 @@ class ObjectSerializer {
                 "Token": Token,
                 "TokenVersion": TokenVersion,
                 "TokenVersionType": TokenVersionType,
+                "TokenizedCardData": TokenizedCardData,
+                "TokenizedCardDataCreate": TokenizedCardDataCreate,
                 "Transaction": Transaction,
                 "TransactionAwareEntity": TransactionAwareEntity,
                 "TransactionComment": TransactionComment,
@@ -575,6 +594,7 @@ class ObjectSerializer {
                 "ApplicationUser": ApplicationUser,
                 "ApplicationUserCreate": ApplicationUserCreate,
                 "ApplicationUserUpdate": ApplicationUserUpdate,
+                "AuthenticatedCardData": AuthenticatedCardData,
                 "Charge": Charge,
                 "ChargeAttempt": ChargeAttempt,
                 "ChargeBankTransaction": ChargeBankTransaction,

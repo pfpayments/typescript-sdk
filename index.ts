@@ -25,6 +25,7 @@ import { AnalyticsQueryExecutionState as AnalyticsQueryExecutionStateModelImport
 import { AnalyticsQueryResultBatch as AnalyticsQueryResultBatchModelImport } from "./src/models/AnalyticsQueryResultBatch";
 import { AnalyticsSchemaColumn as AnalyticsSchemaColumnModelImport } from "./src/models/AnalyticsSchemaColumn";
 import { AnalyticsSchemaTable as AnalyticsSchemaTableModelImport } from "./src/models/AnalyticsSchemaTable";
+import { AuthenticatedCardDataCreate as AuthenticatedCardDataCreateModelImport } from "./src/models/AuthenticatedCardDataCreate";
 import { BankAccount as BankAccountModelImport } from "./src/models/BankAccount";
 import { BankAccountEnvironment as BankAccountEnvironmentModelImport } from "./src/models/BankAccountEnvironment";
 import { BankAccountState as BankAccountStateModelImport } from "./src/models/BankAccountState";
@@ -34,6 +35,13 @@ import { BankTransactionFlowDirection as BankTransactionFlowDirectionModelImport
 import { BankTransactionSource as BankTransactionSourceModelImport } from "./src/models/BankTransactionSource";
 import { BankTransactionState as BankTransactionStateModelImport } from "./src/models/BankTransactionState";
 import { BankTransactionType as BankTransactionTypeModelImport } from "./src/models/BankTransactionType";
+import { CardAuthenticationResponse as CardAuthenticationResponseModelImport } from "./src/models/CardAuthenticationResponse";
+import { CardAuthenticationVersion as CardAuthenticationVersionModelImport } from "./src/models/CardAuthenticationVersion";
+import { CardCryptogram as CardCryptogramModelImport } from "./src/models/CardCryptogram";
+import { CardCryptogramCreate as CardCryptogramCreateModelImport } from "./src/models/CardCryptogramCreate";
+import { CardCryptogramType as CardCryptogramTypeModelImport } from "./src/models/CardCryptogramType";
+import { CardholderAuthentication as CardholderAuthenticationModelImport } from "./src/models/CardholderAuthentication";
+import { CardholderAuthenticationCreate as CardholderAuthenticationCreateModelImport } from "./src/models/CardholderAuthenticationCreate";
 import { ChargeAttemptEnvironment as ChargeAttemptEnvironmentModelImport } from "./src/models/ChargeAttemptEnvironment";
 import { ChargeAttemptState as ChargeAttemptStateModelImport } from "./src/models/ChargeAttemptState";
 import { ChargeFlow as ChargeFlowModelImport } from "./src/models/ChargeFlow";
@@ -60,8 +68,6 @@ import { CustomerPostalAddress as CustomerPostalAddressModelImport } from "./src
 import { CustomerPostalAddressCreate as CustomerPostalAddressCreateModelImport } from "./src/models/CustomerPostalAddressCreate";
 import { CustomersPresence as CustomersPresenceModelImport } from "./src/models/CustomersPresence";
 import { DataCollectionType as DataCollectionTypeModelImport } from "./src/models/DataCollectionType";
-import { DatabaseTranslatedString as DatabaseTranslatedStringModelImport } from "./src/models/DatabaseTranslatedString";
-import { DatabaseTranslatedStringItem as DatabaseTranslatedStringItemModelImport } from "./src/models/DatabaseTranslatedStringItem";
 import { DeliveryIndicationDecisionReason as DeliveryIndicationDecisionReasonModelImport } from "./src/models/DeliveryIndicationDecisionReason";
 import { DeliveryIndicationState as DeliveryIndicationStateModelImport } from "./src/models/DeliveryIndicationState";
 import { DocumentTemplate as DocumentTemplateModelImport } from "./src/models/DocumentTemplate";
@@ -148,6 +154,7 @@ import { PaymentTerminalTransactionSummary as PaymentTerminalTransactionSummaryM
 import { PaymentTerminalTransactionSummaryFetchRequest as PaymentTerminalTransactionSummaryFetchRequestModelImport } from "./src/models/PaymentTerminalTransactionSummaryFetchRequest";
 import { PaymentTerminalType as PaymentTerminalTypeModelImport } from "./src/models/PaymentTerminalType";
 import { Permission as PermissionModelImport } from "./src/models/Permission";
+import { RecurringIndicator as RecurringIndicatorModelImport } from "./src/models/RecurringIndicator";
 import { Refund as RefundModelImport } from "./src/models/Refund";
 import { RefundComment as RefundCommentModelImport } from "./src/models/RefundComment";
 import { RefundCreate as RefundCreateModelImport } from "./src/models/RefundCreate";
@@ -219,6 +226,8 @@ import { TokenVersion as TokenVersionModelImport } from "./src/models/TokenVersi
 import { TokenVersionState as TokenVersionStateModelImport } from "./src/models/TokenVersionState";
 import { TokenVersionType as TokenVersionTypeModelImport } from "./src/models/TokenVersionType";
 import { TokenizationMode as TokenizationModeModelImport } from "./src/models/TokenizationMode";
+import { TokenizedCardData as TokenizedCardDataModelImport } from "./src/models/TokenizedCardData";
+import { TokenizedCardDataCreate as TokenizedCardDataCreateModelImport } from "./src/models/TokenizedCardDataCreate";
 import { Transaction as TransactionModelImport } from "./src/models/Transaction";
 import { TransactionAwareEntity as TransactionAwareEntityModelImport } from "./src/models/TransactionAwareEntity";
 import { TransactionComment as TransactionCommentModelImport } from "./src/models/TransactionComment";
@@ -253,6 +262,7 @@ import { AccountUpdate as AccountUpdateModelImport } from "./src/models/AccountU
 import { ApplicationUser as ApplicationUserModelImport } from "./src/models/ApplicationUser";
 import { ApplicationUserCreate as ApplicationUserCreateModelImport } from "./src/models/ApplicationUserCreate";
 import { ApplicationUserUpdate as ApplicationUserUpdateModelImport } from "./src/models/ApplicationUserUpdate";
+import { AuthenticatedCardData as AuthenticatedCardDataModelImport } from "./src/models/AuthenticatedCardData";
 import { Charge as ChargeModelImport } from "./src/models/Charge";
 import { ChargeAttempt as ChargeAttemptModelImport } from "./src/models/ChargeAttempt";
 import { ChargeBankTransaction as ChargeBankTransactionModelImport } from "./src/models/ChargeBankTransaction";
@@ -306,6 +316,7 @@ import { AnalyticsQueryService as AnalyticsQueryServiceApiImport } from "./src/a
 import { ApplicationUserService as ApplicationUserServiceApiImport } from "./src/api/ApplicationUserService";
 import { BankAccountService as BankAccountServiceApiImport } from "./src/api/BankAccountService";
 import { BankTransactionService as BankTransactionServiceApiImport } from "./src/api/BankTransactionService";
+import { CardProcessingService as CardProcessingServiceApiImport } from "./src/api/CardProcessingService";
 import { ChargeAttemptService as ChargeAttemptServiceApiImport } from "./src/api/ChargeAttemptService";
 import { ChargeBankTransactionService as ChargeBankTransactionServiceApiImport } from "./src/api/ChargeBankTransactionService";
 import { ChargeFlowLevelPaymentLinkService as ChargeFlowLevelPaymentLinkServiceApiImport } from "./src/api/ChargeFlowLevelPaymentLinkService";
@@ -434,6 +445,8 @@ export namespace PostFinanceCheckout {
         export const AnalyticsSchemaColumn = AnalyticsSchemaColumnModelImport;
         export type AnalyticsSchemaTable = AnalyticsSchemaTableModelImport;
         export const AnalyticsSchemaTable = AnalyticsSchemaTableModelImport;
+        export type AuthenticatedCardDataCreate = AuthenticatedCardDataCreateModelImport;
+        export const AuthenticatedCardDataCreate = AuthenticatedCardDataCreateModelImport;
         export type BankAccount = BankAccountModelImport;
         export const BankAccount = BankAccountModelImport;
         export type BankAccountEnvironment = BankAccountEnvironmentModelImport;
@@ -452,6 +465,20 @@ export namespace PostFinanceCheckout {
         export const BankTransactionState = BankTransactionStateModelImport;
         export type BankTransactionType = BankTransactionTypeModelImport;
         export const BankTransactionType = BankTransactionTypeModelImport;
+        export type CardAuthenticationResponse = CardAuthenticationResponseModelImport;
+        export const CardAuthenticationResponse = CardAuthenticationResponseModelImport;
+        export type CardAuthenticationVersion = CardAuthenticationVersionModelImport;
+        export const CardAuthenticationVersion = CardAuthenticationVersionModelImport;
+        export type CardCryptogram = CardCryptogramModelImport;
+        export const CardCryptogram = CardCryptogramModelImport;
+        export type CardCryptogramCreate = CardCryptogramCreateModelImport;
+        export const CardCryptogramCreate = CardCryptogramCreateModelImport;
+        export type CardCryptogramType = CardCryptogramTypeModelImport;
+        export const CardCryptogramType = CardCryptogramTypeModelImport;
+        export type CardholderAuthentication = CardholderAuthenticationModelImport;
+        export const CardholderAuthentication = CardholderAuthenticationModelImport;
+        export type CardholderAuthenticationCreate = CardholderAuthenticationCreateModelImport;
+        export const CardholderAuthenticationCreate = CardholderAuthenticationCreateModelImport;
         export type ChargeAttemptEnvironment = ChargeAttemptEnvironmentModelImport;
         export const ChargeAttemptEnvironment = ChargeAttemptEnvironmentModelImport;
         export type ChargeAttemptState = ChargeAttemptStateModelImport;
@@ -504,10 +531,6 @@ export namespace PostFinanceCheckout {
         export const CustomersPresence = CustomersPresenceModelImport;
         export type DataCollectionType = DataCollectionTypeModelImport;
         export const DataCollectionType = DataCollectionTypeModelImport;
-        export type DatabaseTranslatedString = DatabaseTranslatedStringModelImport;
-        export const DatabaseTranslatedString = DatabaseTranslatedStringModelImport;
-        export type DatabaseTranslatedStringItem = DatabaseTranslatedStringItemModelImport;
-        export const DatabaseTranslatedStringItem = DatabaseTranslatedStringItemModelImport;
         export type DeliveryIndicationDecisionReason = DeliveryIndicationDecisionReasonModelImport;
         export const DeliveryIndicationDecisionReason = DeliveryIndicationDecisionReasonModelImport;
         export type DeliveryIndicationState = DeliveryIndicationStateModelImport;
@@ -680,6 +703,8 @@ export namespace PostFinanceCheckout {
         export const PaymentTerminalType = PaymentTerminalTypeModelImport;
         export type Permission = PermissionModelImport;
         export const Permission = PermissionModelImport;
+        export type RecurringIndicator = RecurringIndicatorModelImport;
+        export const RecurringIndicator = RecurringIndicatorModelImport;
         export type Refund = RefundModelImport;
         export const Refund = RefundModelImport;
         export type RefundComment = RefundCommentModelImport;
@@ -822,6 +847,10 @@ export namespace PostFinanceCheckout {
         export const TokenVersionType = TokenVersionTypeModelImport;
         export type TokenizationMode = TokenizationModeModelImport;
         export const TokenizationMode = TokenizationModeModelImport;
+        export type TokenizedCardData = TokenizedCardDataModelImport;
+        export const TokenizedCardData = TokenizedCardDataModelImport;
+        export type TokenizedCardDataCreate = TokenizedCardDataCreateModelImport;
+        export const TokenizedCardDataCreate = TokenizedCardDataCreateModelImport;
         export type Transaction = TransactionModelImport;
         export const Transaction = TransactionModelImport;
         export type TransactionAwareEntity = TransactionAwareEntityModelImport;
@@ -890,6 +919,8 @@ export namespace PostFinanceCheckout {
         export const ApplicationUserCreate = ApplicationUserCreateModelImport;
         export type ApplicationUserUpdate = ApplicationUserUpdateModelImport;
         export const ApplicationUserUpdate = ApplicationUserUpdateModelImport;
+        export type AuthenticatedCardData = AuthenticatedCardDataModelImport;
+        export const AuthenticatedCardData = AuthenticatedCardDataModelImport;
         export type Charge = ChargeModelImport;
         export const Charge = ChargeModelImport;
         export type ChargeAttempt = ChargeAttemptModelImport;
@@ -997,6 +1028,8 @@ export namespace PostFinanceCheckout {
         export const BankAccountService = BankAccountServiceApiImport;
         export type BankTransactionService = BankTransactionServiceApiImport;
         export const BankTransactionService = BankTransactionServiceApiImport;
+        export type CardProcessingService = CardProcessingServiceApiImport;
+        export const CardProcessingService = CardProcessingServiceApiImport;
         export type ChargeAttemptService = ChargeAttemptServiceApiImport;
         export const ChargeAttemptService = ChargeAttemptServiceApiImport;
         export type ChargeBankTransactionService = ChargeBankTransactionServiceApiImport;
