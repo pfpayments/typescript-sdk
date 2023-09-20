@@ -254,6 +254,8 @@ import { UserAccountRole } from "../models/UserAccountRole";
 import { UserSpaceRole } from "../models/UserSpaceRole";
 import { UserType } from "../models/UserType";
 import { WalletType } from "../models/WalletType";
+import { WebAppConfirmationRequest } from "../models/WebAppConfirmationRequest";
+import { WebAppConfirmationResponse } from "../models/WebAppConfirmationResponse";
 import { WebhookIdentity } from "../models/WebhookIdentity";
 import { WebhookListener } from "../models/WebhookListener";
 import { WebhookListenerEntity } from "../models/WebhookListenerEntity";
@@ -585,6 +587,8 @@ class ObjectSerializer {
                 "User": User,
                 "UserAccountRole": UserAccountRole,
                 "UserSpaceRole": UserSpaceRole,
+                "WebAppConfirmationRequest": WebAppConfirmationRequest,
+                "WebAppConfirmationResponse": WebAppConfirmationResponse,
                 "WebhookIdentity": WebhookIdentity,
                 "WebhookListener": WebhookListener,
                 "WebhookListenerEntity": WebhookListenerEntity,

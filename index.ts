@@ -253,6 +253,8 @@ import { UserAccountRole as UserAccountRoleModelImport } from "./src/models/User
 import { UserSpaceRole as UserSpaceRoleModelImport } from "./src/models/UserSpaceRole";
 import { UserType as UserTypeModelImport } from "./src/models/UserType";
 import { WalletType as WalletTypeModelImport } from "./src/models/WalletType";
+import { WebAppConfirmationRequest as WebAppConfirmationRequestModelImport } from "./src/models/WebAppConfirmationRequest";
+import { WebAppConfirmationResponse as WebAppConfirmationResponseModelImport } from "./src/models/WebAppConfirmationResponse";
 import { WebhookIdentity as WebhookIdentityModelImport } from "./src/models/WebhookIdentity";
 import { WebhookListener as WebhookListenerModelImport } from "./src/models/WebhookListener";
 import { WebhookListenerEntity as WebhookListenerEntityModelImport } from "./src/models/WebhookListenerEntity";
@@ -385,6 +387,7 @@ import { TransactionTerminalService as TransactionTerminalServiceApiImport } fro
 import { TransactionVoidService as TransactionVoidServiceApiImport } from "./src/api/TransactionVoidService";
 import { UserAccountRoleService as UserAccountRoleServiceApiImport } from "./src/api/UserAccountRoleService";
 import { UserSpaceRoleService as UserSpaceRoleServiceApiImport } from "./src/api/UserSpaceRoleService";
+import { WebAppService as WebAppServiceApiImport } from "./src/api/WebAppService";
 import { WebhookListenerService as WebhookListenerServiceApiImport } from "./src/api/WebhookListenerService";
 import { WebhookUrlService as WebhookUrlServiceApiImport } from "./src/api/WebhookUrlService";
 
@@ -901,6 +904,10 @@ export namespace PostFinanceCheckout {
         export const UserType = UserTypeModelImport;
         export type WalletType = WalletTypeModelImport;
         export const WalletType = WalletTypeModelImport;
+        export type WebAppConfirmationRequest = WebAppConfirmationRequestModelImport;
+        export const WebAppConfirmationRequest = WebAppConfirmationRequestModelImport;
+        export type WebAppConfirmationResponse = WebAppConfirmationResponseModelImport;
+        export const WebAppConfirmationResponse = WebAppConfirmationResponseModelImport;
         export type WebhookIdentity = WebhookIdentityModelImport;
         export const WebhookIdentity = WebhookIdentityModelImport;
         export type WebhookListener = WebhookListenerModelImport;
@@ -1166,6 +1173,8 @@ export namespace PostFinanceCheckout {
         export const UserAccountRoleService = UserAccountRoleServiceApiImport;
         export type UserSpaceRoleService = UserSpaceRoleServiceApiImport;
         export const UserSpaceRoleService = UserSpaceRoleServiceApiImport;
+        export type WebAppService = WebAppServiceApiImport;
+        export const WebAppService = WebAppServiceApiImport;
         export type WebhookListenerService = WebhookListenerServiceApiImport;
         export const WebhookListenerService = WebhookListenerServiceApiImport;
         export type WebhookUrlService = WebhookUrlServiceApiImport;
