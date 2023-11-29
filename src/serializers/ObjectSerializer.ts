@@ -256,6 +256,7 @@ import { UserType } from "../models/UserType";
 import { WalletType } from "../models/WalletType";
 import { WebAppConfirmationRequest } from "../models/WebAppConfirmationRequest";
 import { WebAppConfirmationResponse } from "../models/WebAppConfirmationResponse";
+import { WebhookEncryptionPublicKey } from "../models/WebhookEncryptionPublicKey";
 import { WebhookIdentity } from "../models/WebhookIdentity";
 import { WebhookListener } from "../models/WebhookListener";
 import { WebhookListenerEntity } from "../models/WebhookListenerEntity";
@@ -412,7 +413,6 @@ class ObjectSerializer {
         "TransactionVoidMode": TransactionVoidMode,
         "TransactionVoidState": TransactionVoidState,
         "UserType": UserType,
-        "WalletType": WalletType,
     }
 
     static typeMap: {[index: string]: any} = {
@@ -587,8 +587,10 @@ class ObjectSerializer {
                 "User": User,
                 "UserAccountRole": UserAccountRole,
                 "UserSpaceRole": UserSpaceRole,
+                "WalletType": WalletType,
                 "WebAppConfirmationRequest": WebAppConfirmationRequest,
                 "WebAppConfirmationResponse": WebAppConfirmationResponse,
+                "WebhookEncryptionPublicKey": WebhookEncryptionPublicKey,
                 "WebhookIdentity": WebhookIdentity,
                 "WebhookListener": WebhookListener,
                 "WebhookListenerEntity": WebhookListenerEntity,

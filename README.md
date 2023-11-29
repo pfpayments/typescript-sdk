@@ -12,6 +12,8 @@ The PostFinance Checkout TypeScript library wraps around the PostFinance Checkou
 - npm 6+
 
 ## Installation
+>**_NOTE:_** Highly recommended to use TypeScript SDK in server-side applications.<br>
+Use front-end frameworks such as Angular at your own risk, as the application might be incompatible or cause a potential threat that the application user information (such as secret keys) might be revealed publicly in the browser.
 
 ## NPM install (recommended)
 ```sh
