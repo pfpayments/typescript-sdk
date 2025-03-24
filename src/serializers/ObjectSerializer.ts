@@ -20,12 +20,6 @@ import { AccountState } from "../models/AccountState";
 import { AccountType } from "../models/AccountType";
 import { Address } from "../models/Address";
 import { AddressCreate } from "../models/AddressCreate";
-import { AnalyticsQuery } from "../models/AnalyticsQuery";
-import { AnalyticsQueryExecution } from "../models/AnalyticsQueryExecution";
-import { AnalyticsQueryExecutionState } from "../models/AnalyticsQueryExecutionState";
-import { AnalyticsQueryResultBatch } from "../models/AnalyticsQueryResultBatch";
-import { AnalyticsSchemaColumn } from "../models/AnalyticsSchemaColumn";
-import { AnalyticsSchemaTable } from "../models/AnalyticsSchemaTable";
 import { AuthenticatedCardDataCreate } from "../models/AuthenticatedCardDataCreate";
 import { BankAccount } from "../models/BankAccount";
 import { BankAccountEnvironment } from "../models/BankAccountEnvironment";
@@ -36,11 +30,11 @@ import { BankTransactionFlowDirection } from "../models/BankTransactionFlowDirec
 import { BankTransactionSource } from "../models/BankTransactionSource";
 import { BankTransactionState } from "../models/BankTransactionState";
 import { BankTransactionType } from "../models/BankTransactionType";
+import { BillingConfiguration } from "../models/BillingConfiguration";
 import { CardAuthenticationResponse } from "../models/CardAuthenticationResponse";
 import { CardAuthenticationVersion } from "../models/CardAuthenticationVersion";
 import { CardCryptogram } from "../models/CardCryptogram";
 import { CardCryptogramCreate } from "../models/CardCryptogramCreate";
-import { CardCryptogramType } from "../models/CardCryptogramType";
 import { CardholderAuthentication } from "../models/CardholderAuthentication";
 import { CardholderAuthenticationCreate } from "../models/CardholderAuthenticationCreate";
 import { ChargeAttemptEnvironment } from "../models/ChargeAttemptEnvironment";
@@ -95,6 +89,7 @@ import { InvoiceReconciliationRecordState } from "../models/InvoiceReconciliatio
 import { InvoiceReconciliationRecordType } from "../models/InvoiceReconciliationRecordType";
 import { InvoiceReimbursement } from "../models/InvoiceReimbursement";
 import { InvoiceReimbursementState } from "../models/InvoiceReimbursementState";
+import { Item } from "../models/Item";
 import { Label } from "../models/Label";
 import { LabelDescriptor } from "../models/LabelDescriptor";
 import { LabelDescriptorCategory } from "../models/LabelDescriptorCategory";
@@ -115,6 +110,7 @@ import { ManualTaskActionStyle } from "../models/ManualTaskActionStyle";
 import { ManualTaskState } from "../models/ManualTaskState";
 import { ManualTaskType } from "../models/ManualTaskType";
 import { OneClickPaymentMode } from "../models/OneClickPaymentMode";
+import { PanType } from "../models/PanType";
 import { PaymentAdjustment } from "../models/PaymentAdjustment";
 import { PaymentAdjustmentType } from "../models/PaymentAdjustmentType";
 import { PaymentConnector } from "../models/PaymentConnector";
@@ -153,6 +149,7 @@ import { PaymentTerminalState } from "../models/PaymentTerminalState";
 import { PaymentTerminalTransactionSum } from "../models/PaymentTerminalTransactionSum";
 import { PaymentTerminalTransactionSummary } from "../models/PaymentTerminalTransactionSummary";
 import { PaymentTerminalTransactionSummaryFetchRequest } from "../models/PaymentTerminalTransactionSummaryFetchRequest";
+import { PaymentTerminalTransactionSummaryReference } from "../models/PaymentTerminalTransactionSummaryReference";
 import { PaymentTerminalType } from "../models/PaymentTerminalType";
 import { Permission } from "../models/Permission";
 import { RecurringIndicator } from "../models/RecurringIndicator";
@@ -178,7 +175,6 @@ import { SalesChannel } from "../models/SalesChannel";
 import { Scope } from "../models/Scope";
 import { ServerError } from "../models/ServerError";
 import { ShopifyAdditionalLineItemData } from "../models/ShopifyAdditionalLineItemData";
-import { ShopifyIntegration } from "../models/ShopifyIntegration";
 import { ShopifyIntegrationPaymentAppVersion } from "../models/ShopifyIntegrationPaymentAppVersion";
 import { ShopifyIntegrationSubscriptionAppVersion } from "../models/ShopifyIntegrationSubscriptionAppVersion";
 import { ShopifyRecurringOrderState } from "../models/ShopifyRecurringOrderState";
@@ -191,9 +187,6 @@ import { ShopifySubscription } from "../models/ShopifySubscription";
 import { ShopifySubscriptionAddressCreate } from "../models/ShopifySubscriptionAddressCreate";
 import { ShopifySubscriptionBillingIntervalUnit } from "../models/ShopifySubscriptionBillingIntervalUnit";
 import { ShopifySubscriptionCreationRequest } from "../models/ShopifySubscriptionCreationRequest";
-import { ShopifySubscriptionModelBillingConfiguration } from "../models/ShopifySubscriptionModelBillingConfiguration";
-import { ShopifySubscriptionModelItem } from "../models/ShopifySubscriptionModelItem";
-import { ShopifySubscriptionModelTaxLine } from "../models/ShopifySubscriptionModelTaxLine";
 import { ShopifySubscriptionProduct } from "../models/ShopifySubscriptionProduct";
 import { ShopifySubscriptionProductPricingOption } from "../models/ShopifySubscriptionProductPricingOption";
 import { ShopifySubscriptionProductState } from "../models/ShopifySubscriptionProductState";
@@ -212,6 +205,7 @@ import { ShopifySubscriptionVersionState } from "../models/ShopifySubscriptionVe
 import { ShopifySubscriptionWeekday } from "../models/ShopifySubscriptionWeekday";
 import { ShopifyTaxLine } from "../models/ShopifyTaxLine";
 import { ShopifyTransactionState } from "../models/ShopifyTransactionState";
+import { ShopifyV1Integration } from "../models/ShopifyV1Integration";
 import { Space } from "../models/Space";
 import { SpaceAddress } from "../models/SpaceAddress";
 import { SpaceAddressCreate } from "../models/SpaceAddressCreate";
@@ -219,6 +213,7 @@ import { SpaceView } from "../models/SpaceView";
 import { StaticValue } from "../models/StaticValue";
 import { Tax } from "../models/Tax";
 import { TaxCreate } from "../models/TaxCreate";
+import { TaxLine } from "../models/TaxLine";
 import { TenantDatabase } from "../models/TenantDatabase";
 import { TerminalReceiptFetchRequest } from "../models/TerminalReceiptFetchRequest";
 import { TerminalReceiptFormat } from "../models/TerminalReceiptFormat";
@@ -332,14 +327,12 @@ class ObjectSerializer {
     static enumsMap: {[index: string]: any} = {
         "AccountState": AccountState,
         "AccountType": AccountType,
-        "AnalyticsQueryExecutionState": AnalyticsQueryExecutionState,
         "BankAccountEnvironment": BankAccountEnvironment,
         "BankAccountState": BankAccountState,
         "BankTransactionFlowDirection": BankTransactionFlowDirection,
         "BankTransactionState": BankTransactionState,
         "CardAuthenticationResponse": CardAuthenticationResponse,
         "CardAuthenticationVersion": CardAuthenticationVersion,
-        "CardCryptogramType": CardCryptogramType,
         "ChargeAttemptEnvironment": ChargeAttemptEnvironment,
         "ChargeAttemptState": ChargeAttemptState,
         "ChargeFlowLevelState": ChargeFlowLevelState,
@@ -366,6 +359,7 @@ class ObjectSerializer {
         "ManualTaskActionStyle": ManualTaskActionStyle,
         "ManualTaskState": ManualTaskState,
         "OneClickPaymentMode": OneClickPaymentMode,
+        "PanType": PanType,
         "PaymentContractState": PaymentContractState,
         "PaymentInitiationAdviceFileState": PaymentInitiationAdviceFileState,
         "PaymentLinkAddressHandlingMode": PaymentLinkAddressHandlingMode,
@@ -435,17 +429,13 @@ class ObjectSerializer {
                 "Account": Account,
                 "Address": Address,
                 "AddressCreate": AddressCreate,
-                "AnalyticsQuery": AnalyticsQuery,
-                "AnalyticsQueryExecution": AnalyticsQueryExecution,
-                "AnalyticsQueryResultBatch": AnalyticsQueryResultBatch,
-                "AnalyticsSchemaColumn": AnalyticsSchemaColumn,
-                "AnalyticsSchemaTable": AnalyticsSchemaTable,
                 "AuthenticatedCardDataCreate": AuthenticatedCardDataCreate,
                 "BankAccount": BankAccount,
                 "BankAccountType": BankAccountType,
                 "BankTransaction": BankTransaction,
                 "BankTransactionSource": BankTransactionSource,
                 "BankTransactionType": BankTransactionType,
+                "BillingConfiguration": BillingConfiguration,
                 "CardCryptogram": CardCryptogram,
                 "CardCryptogramCreate": CardCryptogramCreate,
                 "CardholderAuthentication": CardholderAuthentication,
@@ -481,6 +471,7 @@ class ObjectSerializer {
                 "InvoiceReconciliationRecordInvoiceLink": InvoiceReconciliationRecordInvoiceLink,
                 "InvoiceReconciliationRecordType": InvoiceReconciliationRecordType,
                 "InvoiceReimbursement": InvoiceReimbursement,
+                "Item": Item,
                 "Label": Label,
                 "LabelDescriptor": LabelDescriptor,
                 "LabelDescriptorGroup": LabelDescriptorGroup,
@@ -524,6 +515,7 @@ class ObjectSerializer {
                 "PaymentTerminalTransactionSum": PaymentTerminalTransactionSum,
                 "PaymentTerminalTransactionSummary": PaymentTerminalTransactionSummary,
                 "PaymentTerminalTransactionSummaryFetchRequest": PaymentTerminalTransactionSummaryFetchRequest,
+                "PaymentTerminalTransactionSummaryReference": PaymentTerminalTransactionSummaryReference,
                 "PaymentTerminalType": PaymentTerminalType,
                 "Permission": Permission,
                 "Refund": Refund,
@@ -542,7 +534,6 @@ class ObjectSerializer {
                 "SalesChannel": SalesChannel,
                 "Scope": Scope,
                 "ServerError": ServerError,
-                "ShopifyIntegration": ShopifyIntegration,
                 "ShopifyRecurringOrderUpdateRequest": ShopifyRecurringOrderUpdateRequest,
                 "ShopifySubscriber": ShopifySubscriber,
                 "ShopifySubscriberActive": ShopifySubscriberActive,
@@ -550,9 +541,6 @@ class ObjectSerializer {
                 "ShopifySubscription": ShopifySubscription,
                 "ShopifySubscriptionAddressCreate": ShopifySubscriptionAddressCreate,
                 "ShopifySubscriptionCreationRequest": ShopifySubscriptionCreationRequest,
-                "ShopifySubscriptionModelBillingConfiguration": ShopifySubscriptionModelBillingConfiguration,
-                "ShopifySubscriptionModelItem": ShopifySubscriptionModelItem,
-                "ShopifySubscriptionModelTaxLine": ShopifySubscriptionModelTaxLine,
                 "ShopifySubscriptionProduct": ShopifySubscriptionProduct,
                 "ShopifySubscriptionSuspension": ShopifySubscriptionSuspension,
                 "ShopifySubscriptionSuspensionCreate": ShopifySubscriptionSuspensionCreate,
@@ -561,6 +549,7 @@ class ObjectSerializer {
                 "ShopifySubscriptionVersion": ShopifySubscriptionVersion,
                 "ShopifySubscriptionVersionItem": ShopifySubscriptionVersionItem,
                 "ShopifyTaxLine": ShopifyTaxLine,
+                "ShopifyV1Integration": ShopifyV1Integration,
                 "Space": Space,
                 "SpaceAddress": SpaceAddress,
                 "SpaceAddressCreate": SpaceAddressCreate,
@@ -568,6 +557,7 @@ class ObjectSerializer {
                 "StaticValue": StaticValue,
                 "Tax": Tax,
                 "TaxCreate": TaxCreate,
+                "TaxLine": TaxLine,
                 "TenantDatabase": TenantDatabase,
                 "TerminalReceiptFetchRequest": TerminalReceiptFetchRequest,
                 "Token": Token,
