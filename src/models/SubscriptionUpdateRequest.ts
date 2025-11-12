@@ -22,13 +22,6 @@
  * limitations under the License.
  */
 import { mapValues } from '../runtime';
-import type { SubscriptionComponentReferenceConfiguration } from './SubscriptionComponentReferenceConfiguration';
-import {
-    SubscriptionComponentReferenceConfigurationFromJSON,
-    SubscriptionComponentReferenceConfigurationFromJSONTyped,
-    SubscriptionComponentReferenceConfigurationToJSON,
-} from './SubscriptionComponentReferenceConfiguration';
-
 /**
  * 
  * @export
@@ -36,29 +29,11 @@ import {
  */
 export interface SubscriptionUpdateRequest {
     /**
-     * The configurations of the subscription's components.
-     * @type {Set<SubscriptionComponentReferenceConfiguration>}
-     * @memberof SubscriptionUpdateRequest
-     */
-    componentConfigurations?: Set<SubscriptionComponentReferenceConfiguration>;
-    /**
-     * The product to subscribe to.
-     * @type {number}
-     * @memberof SubscriptionUpdateRequest
-     */
-    product?: number;
-    /**
-     * The three-letter code (ISO 4217 format) of the currency used to invoice the customer. Must be one of the currencies supported by the product.
+     * A description used to identify the subscription.
      * @type {string}
      * @memberof SubscriptionUpdateRequest
      */
-    currency?: string;
-    /**
-     * Whether the subscriptions' termination periods should be respected.
-     * @type {boolean}
-     * @memberof SubscriptionUpdateRequest
-     */
-    respectTerminationPeriod?: boolean;
+    description?: string;
 }
 
 /**
@@ -78,10 +53,7 @@ export function SubscriptionUpdateRequestFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'componentConfigurations': json['componentConfigurations'] == null ? undefined : (new Set((json['componentConfigurations'] as Array<any>).map(SubscriptionComponentReferenceConfigurationFromJSON))),
-        'product': json['product'] == null ? undefined : json['product'],
-        'currency': json['currency'] == null ? undefined : json['currency'],
-        'respectTerminationPeriod': json['respectTerminationPeriod'] == null ? undefined : json['respectTerminationPeriod'],
+        'description': json['description'] == null ? undefined : json['description'],
     };
 }
 
@@ -91,10 +63,7 @@ export function SubscriptionUpdateRequestToJSON(value?: SubscriptionUpdateReques
     }
     return {
         
-        'componentConfigurations': value['componentConfigurations'] == null ? undefined : (Array.from(value['componentConfigurations'] as Set<any>).map(SubscriptionComponentReferenceConfigurationToJSON)),
-        'product': value['product'],
-        'currency': value['currency'],
-        'respectTerminationPeriod': value['respectTerminationPeriod'],
+        'description': value['description'],
     };
 }
 
