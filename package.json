@@ -1,7 +1,7 @@
 {
   "name": "postfinancecheckout",
   "title": "postfinancecheckout",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "TypeScript/JavaScript client for postfinancecheckout",
   "author": "wallee AG",
   "repository": {
