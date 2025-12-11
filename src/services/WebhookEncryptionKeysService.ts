@@ -32,7 +32,7 @@ import {
 } from '../models/index';
 import { EncryptionUtil } from '../utils/EncryptionUtil';
 import { PostFinanceCheckoutSdkException } from "../models/PostFinanceCheckoutSdkException";
-import { ErrorCode } from "../models/ErrorCode";
+import { SdkExceptionErrorCodes } from "../models/SdkExceptionErrorCodes";
 import {ServiceApiUtils} from "../utils/ServiceApiUtils";
 
 export interface GetWebhooksEncryptionKeysIdRequest {
@@ -110,7 +110,7 @@ export class WebhookEncryptionKeysService extends runtime.BaseAPI {
 
         if (!match) {
             throw new PostFinanceCheckoutSdkException(
-                    ErrorCode.INVALID_WEBHOOK_ENCRYPTION_HEADER_FORMAT,
+                    SdkExceptionErrorCodes.INVALID_WEBHOOK_ENCRYPTION_HEADER_FORMAT,
                     "Invalid webhook encryption header format. Expected format: 'algorithm=<algorithm>, keyId=<keyId>, signature=<signature>'"
                   );
         }
@@ -128,14 +128,14 @@ export class WebhookEncryptionKeysService extends runtime.BaseAPI {
                     publicKey = await this.getWebhooksEncryptionKeysId({ id: publicKeyId });
                 } catch (e: any) {
                     throw new PostFinanceCheckoutSdkException(
-                        ErrorCode.UNKNOWN_WEBHOOK_ENCRYPTION_PUBLIC_KEY,
+                        SdkExceptionErrorCodes.UNKNOWN_WEBHOOK_ENCRYPTION_PUBLIC_KEY,
                         `Error during retrieving public key with ID: ${publicKeyId}. Because: ${e.message}.`
                     );
                 }
 
                 if (!publicKey) {
                     throw new PostFinanceCheckoutSdkException(
-                        ErrorCode.UNKNOWN_WEBHOOK_ENCRYPTION_PUBLIC_KEY,
+                        SdkExceptionErrorCodes.UNKNOWN_WEBHOOK_ENCRYPTION_PUBLIC_KEY,
                         `Could not retrieve public key with ID: ${publicKeyId}`
                     );
                 }
@@ -149,7 +149,7 @@ export class WebhookEncryptionKeysService extends runtime.BaseAPI {
                 throw err;
             }
             throw new PostFinanceCheckoutSdkException(
-                ErrorCode.WEBHOOK_ENCRYPTION_SIGNATURE_VERIFICATION_FAILED,
+                SdkExceptionErrorCodes.WEBHOOK_ENCRYPTION_SIGNATURE_VERIFICATION_FAILED,
                 `Webhook signature verification failed: ${err.message || err}`
             );
         }

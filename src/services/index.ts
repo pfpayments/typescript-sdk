@@ -42,6 +42,7 @@ export * from './PaymentMethodsService';
 export * from './PaymentProcessorConfigurationsService';
 export * from './PaymentProcessorsService';
 export * from './PaymentSalesChannelsService';
+export * from './PaymentTerminalTransactionSummariesService';
 export * from './PaymentTerminalsService';
 export * from './PermissionsService';
 export * from './RefundBankTransactionsService';

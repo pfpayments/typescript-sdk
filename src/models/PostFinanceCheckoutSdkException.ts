@@ -22,12 +22,10 @@
  * limitations under the License.
  */
 
-import { ErrorCode } from "./ErrorCode";
-
 export class PostFinanceCheckoutSdkException extends Error {
-  public readonly code: ErrorCode;
+  public readonly code: string;
 
-  constructor(code: ErrorCode, details: string) {
+  constructor(code: string, details: string) {
     const message = `Error code: ${code}. ${details}`;
     super(message);
 
